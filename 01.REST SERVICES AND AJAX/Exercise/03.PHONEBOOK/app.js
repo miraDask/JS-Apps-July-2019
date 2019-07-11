@@ -38,7 +38,7 @@ function attachEvents() {
             .then(response => response.json())
             .then(data => displayPhoneBookData(data))
             .catch(() => {
-                phoneBook.innerHTML = 'There are no contacts in the phonebook at the moment!';
+                phoneBook.innerHTML = '<li>There are no contacts in the phonebook at the moment!</li>';
             })
     }
 
@@ -47,6 +47,11 @@ function attachEvents() {
         const phoneInput = document.getElementById('phone');
         const person = personInput.value;
         const phone = phoneInput.value;
+
+        if(!person && !phone) {
+            return;
+        }
+        
         const personData = {
             person,
             phone

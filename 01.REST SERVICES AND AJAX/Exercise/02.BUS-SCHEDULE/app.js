@@ -6,24 +6,34 @@ function solve() {
     let currentStop = '';
     let url = '';
 
-    function depart() {
+    const enableBtn = (btn) => {
+        btn.disabled = false;
+    }
+
+    const disableBtn = (btn) => {
+        btn.disabled = true;
+    }
+
+    const loadStop = ({ name, next }) => {
+        infoBox.textContent = `Next stop ${name}`;
+        currentId = next;
+        currentStop = name;
+        enableBtn(arriveBtn);
+        disableBtn(departBtn);
+    }
+ 
+    const depart = () => {
         url = `https://judgetests.firebaseio.com/schedule/${currentId}.json`;
 
         fetch(url)
             .then(response => response.json())
-            .then(({ name, next }) => {
-                infoBox.textContent = `Next stop ${name}`;
-                currentId = next;
-                currentStop = name;
-                departBtn.disabled = true;
-                arriveBtn.disabled = false;
-            })
+            .then(loadStop);
     }
 
-    function arrive() {
+    const arrive = () => {
         infoBox.textContent = `Arriving at ${currentStop}`;
-        departBtn.disabled = false;
-        arriveBtn.disabled = true;
+        enableBtn(departBtn);
+        disableBtn(arriveBtn);
     }
 
     return {

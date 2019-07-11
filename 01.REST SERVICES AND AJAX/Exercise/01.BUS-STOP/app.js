@@ -1,5 +1,6 @@
 function getInfo() {
-    const stopId = document.getElementById('stopId').value;
+    const inputField = document.getElementById('stopId');
+    const stopId = inputField.value;
     const stopNameElement = document.getElementById('stopName');
     const busesField = document.getElementById('buses');
     const url = `https://judgetests.firebaseio.com/businfo/${stopId}.json`;
@@ -9,6 +10,7 @@ function getInfo() {
     }
 
     const displayBusData = function ([busId, time]) {
+        document.getElementById('stopId').value = '';
         const listItem = document.createElement('li');
         listItem.textContent = `Bus ${busId} arrives in ${time} minutes`;
         busesField.appendChild(listItem);
@@ -24,9 +26,14 @@ function getInfo() {
         stopNameElement.textContent = 'Error';
     }
 
+    const clearInputField = () => {
+        inputField.value = '';
+    }
+
     fetch(url)
         .then(response => response.json())
         .then(displayData)
         .catch(displayError);
 
+    clearInputField();
 }
