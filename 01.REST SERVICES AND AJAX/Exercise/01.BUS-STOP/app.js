@@ -10,10 +10,10 @@ function getInfo() {
 
     const displayBusData = function ([busId, time]) {
         const listItem = document.createElement('li');
-        listItem.textContent = `Bus ${busId} arrives in ${time}`;
+        listItem.textContent = `Bus ${busId} arrives in ${time} minutes`;
         busesField.appendChild(listItem);
     }
-    
+
     const displayData = function ({ name, buses }) {
         stopNameElement.innerHTML = name;
         clearOldData();
