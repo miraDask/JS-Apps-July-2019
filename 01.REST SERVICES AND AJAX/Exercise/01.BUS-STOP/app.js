@@ -13,6 +13,7 @@ function getInfo() {
         listItem.textContent = `Bus ${busId} arrives in ${time}`;
         busesField.appendChild(listItem);
     }
+    
     const displayData = function ({ name, buses }) {
         stopNameElement.innerHTML = name;
         clearOldData();
