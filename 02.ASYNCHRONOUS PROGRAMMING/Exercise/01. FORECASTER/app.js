@@ -27,7 +27,7 @@ function attachEvents() {
         const locations = await response.json();
         const location = locations.filter(l => l.name === locationName)[0];
         return location.code;
-    }
+    };
 
     const getForecast = async (url) => {
         const response = await fetch(url);
@@ -37,19 +37,30 @@ function attachEvents() {
 
         const conditionData = await response.json();
         return conditionData;
-    }
+    };
 
     const createNewSpanElement = (className, text = '') => {
         const span = document.createElement('span');
         span.className = className;
         span.innerHTML = text;
         return span;
+    };
+
+    const beautifyCurrentForecastOutlook = () => {
+        document.querySelectorAll('.condition').forEach(e => {
+            e.style.marginLeft = '5%';
+        });
+
+        document.querySelectorAll('.symbol').forEach(e => {
+            e.style.marginLeft = '0%';
+        });
     }
 
     const loadCurrentForecast = (data) => {
         currentCondition.innerHTML = '<div class="label">Current conditions</div>';
         const div = document.createElement('div');
         div.className = 'forecasts';
+        div.style.width = '60%';
 
         const condition = data.forecast.condition.split(' ').map(x => x.toUpperCase()).join('_');
         const symbol = WEATHER_SYMBOLS[condition];
@@ -69,13 +80,14 @@ function attachEvents() {
         div.appendChild(symbolSpan);
         div.appendChild(conditionSpan);
         currentCondition.appendChild(div);
-    }
+
+        beautifyCurrentForecastOutlook();        
+    };
 
     const loadUpcomingForecast = (data) => {
         upcomingCondition.innerHTML = '<div class="label">Three-day forecast</div>';
         const div = document.createElement('div');
         div.className = 'forecast-info';
-
 
         data.forecast.forEach(f => {
             const upcomingSpan = createNewSpanElement('upcoming');
@@ -93,11 +105,11 @@ function attachEvents() {
             const descriptionSpan = createNewSpanElement('forecast-data', f.condition);
             upcomingSpan.appendChild(descriptionSpan);
             div.appendChild(upcomingSpan);
-        })
+        });
 
         upcomingCondition.appendChild(div);
 
-    }
+    };
 
     const loadForecast = (currentConditionData, upcomingConditionData) => {
         forecastDiv.style.display = 'block';
@@ -106,7 +118,7 @@ function attachEvents() {
 
         loadCurrentForecast(currentConditionData);
         loadUpcomingForecast(upcomingConditionData);
-    }
+    };
 
     const loadErrorMessage = () => {
         forecastDiv.style.display = 'block';
@@ -116,7 +128,7 @@ function attachEvents() {
         const upcomingConditionChild = upcomingCondition.firstChild;
         currentConditionLastChild.remove();
         upcomingConditionChild.remove();
-    }
+    };
 
     const handleEvent = async () => {
         try {
@@ -130,9 +142,9 @@ function attachEvents() {
         } catch (error) {
            loadErrorMessage();
         }
-    }
+    };
 
-    btn.addEventListener('click', handleEvent)
+    btn.addEventListener('click', handleEvent);
 }
 
 attachEvents();
