@@ -1,5 +1,4 @@
 function attachEvents() {
-    //TODO handle Errors
     const elements = {
         btnLoad: document.querySelector('button.load'),
         btnAdd: document.querySelector('button.add'),
@@ -18,11 +17,6 @@ function attachEvents() {
         return response.json();
     }
 
-    const getCatchesData = async () => {
-        const response = await fetch(basicUrl + getAndPostPrefix);
-        return await responseHandler(response);
-    }
-
     const createHtmlElement = (tagName, className, textContent) => {
         const element = document.createElement(tagName);
 
@@ -37,10 +31,6 @@ function attachEvents() {
         return element;
     }
 
-    const parentAppendChildren = (childrenElements, parent) => {
-        childrenElements.forEach(child => parent.appendChild(child));
-    }
-
     const createFragment = (labelText, className, type, value) => {
         const fragment = document.createDocumentFragment();
         const label = createHtmlElement('label', '', labelText);
@@ -50,6 +40,10 @@ function attachEvents() {
         const hr = createHtmlElement('hr', '', '');
         parentAppendChildren([label, input, hr], fragment);
         return fragment;
+    }
+
+    const parentAppendChildren = (childrenElements, parent) => {
+        childrenElements.forEach(child => parent.appendChild(child));
     }
 
     const getInputFieldsValues = (element) => {
@@ -62,36 +56,35 @@ function attachEvents() {
         return data;
     }
 
+    const getCatchesData = async () => {
+        const response = await fetch(basicUrl + getAndPostPrefix);
+        return await responseHandler(response);
+    }
+
     const makePostRequest = async (data) => {
-        try {
-            const response = await fetch(basicUrl + getAndPostPrefix, {
-                method: 'post',
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-        } catch (err) {
-            throw new Error();
-        }
+        const response = await fetch(basicUrl + getAndPostPrefix, {
+            method: 'post',
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+
+        return await responseHandler(response);
     }
 
     const makeRequest = async (method, updatedData, catchId) => {
         const deleteAndUpdatePrefix = `/${catchId}.json`;
 
-        try {
-            const response = await fetch(basicUrl + deleteAndUpdatePrefix, {
-                method,
-                headers: {
-                    'Content-type': 'application/json'
-                },
-                body: JSON.stringify(updatedData)
-            });
+        const response = await fetch(basicUrl + deleteAndUpdatePrefix, {
+            method,
+            headers: {
+                'Content-type': 'application/json'
+            },
+            body: JSON.stringify(updatedData)
+        });
 
-            return await response.json();
-        } catch (err) {
-            throw new Error();
-        }
+        return await responseHandler(response);
     }
 
     const changeCurrentCatch = async function () {
@@ -167,7 +160,7 @@ function attachEvents() {
         if (hasEmptyInput) {
             return;
         }
-        
+
         await makePostRequest(newCatchData);
         clearAddField();
         loadAllCatches();
