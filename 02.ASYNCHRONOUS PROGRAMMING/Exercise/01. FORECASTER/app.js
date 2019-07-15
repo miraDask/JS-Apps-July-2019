@@ -50,7 +50,7 @@ function attachEvents() {
         currentCondition.innerHTML = '<div class="label">Current conditions</div>';
         const div = document.createElement('div');
         div.className = 'forecasts';
-       
+
         const condition = data.forecast.condition.split(' ').map(x => x.toUpperCase()).join('_');
         const symbol = WEATHER_SYMBOLS[condition];
         const symbolSpan = createNewSpanElement('condition symbol', symbol);
@@ -72,9 +72,10 @@ function attachEvents() {
     }
 
     const loadUpcomingForecast = (data) => {
-        upcomingCondition.innerHTML = '';
+        upcomingCondition.innerHTML = '<div class="label">Three-day forecast</div>';
         const div = document.createElement('div');
         div.className = 'forecast-info';
+
 
         data.forecast.forEach(f => {
             const upcomingSpan = createNewSpanElement('upcoming');
@@ -88,7 +89,7 @@ function attachEvents() {
             const degreeSpan = createNewSpanElement('forecast-data', degreeSpanText);
             upcomingSpan.appendChild(degreeSpan);
 
-           
+
             const descriptionSpan = createNewSpanElement('forecast-data', f.condition);
             upcomingSpan.appendChild(descriptionSpan);
             div.appendChild(upcomingSpan);
@@ -107,6 +108,16 @@ function attachEvents() {
         loadUpcomingForecast(upcomingConditionData);
     }
 
+    const loadErrorMessage = () => {
+        forecastDiv.style.display = 'block';
+        document.querySelector('.label').textContent = 'Error';
+        upcomingCondition.style.display = 'none';
+        const currentConditionLastChild = currentCondition.lastChild;
+        const upcomingConditionChild = upcomingCondition.firstChild;
+        currentConditionLastChild.remove();
+        upcomingConditionChild.remove();
+    }
+
     const handleEvent = async () => {
         try {
             const code = await getLocationCode();
@@ -117,10 +128,7 @@ function attachEvents() {
 
             loadForecast(currentConditionData, upcomingConditionData);
         } catch (error) {
-            forecastDiv.style.display = 'block';
-            document.querySelector('.label').textContent = 'Error';
-            //currentCondition.style.display = 'none';
-            upcomingCondition.style.display = 'none';
+           loadErrorMessage();
         }
     }
 
