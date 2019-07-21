@@ -11,5 +11,7 @@
         team : './templates/catalog/team.hbs',
         details : './templates/catalog/details.hbs',
         teamControls : './templates/catalog/teamControls.hbs',
-        teamMembers : './templates/catalog/teamMembers.hbs',
+        teamMember : './templates/catalog/teamMember.hbs',
+        createForm : './templates/create/createForm.hbs',
+        createPage : './templates/create/createPage.hbs'
     }

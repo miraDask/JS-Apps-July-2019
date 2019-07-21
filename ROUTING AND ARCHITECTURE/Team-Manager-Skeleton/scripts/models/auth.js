@@ -23,7 +23,7 @@ let auth = (() => {
     function register(username, password, repeatPassword) {
         let userData = {
             username,
-            password
+            password,
         };
 
         return requester.post('user', '', 'basic', userData);

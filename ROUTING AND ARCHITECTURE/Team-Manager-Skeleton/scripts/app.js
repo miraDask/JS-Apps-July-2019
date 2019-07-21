@@ -9,7 +9,7 @@ $(() => {
                 homePage
             } = partialsPaths;
 
-            this.loggedIn = !!sessionStorage.getItem('authtoken');
+            this.loggedIn = sessionStorage.getItem('authtoken');
             this.username = sessionStorage.getItem('username');
 
             this.loadPartials({
@@ -21,14 +21,17 @@ $(() => {
                 })
         }
 
-        const handleAboutView = function () {
+        const handleAboutView = function (context) {
             const {
                 header,
                 footer,
                 aboutPage
             } = partialsPaths;
 
-            this.loadPartials({
+            context.loggedIn = sessionStorage.getItem('authtoken');
+            context.username = sessionStorage.getItem('username');
+
+            context.loadPartials({
                     header,
                     footer
                 })
@@ -83,7 +86,7 @@ $(() => {
                 .then(response => {
                     auth.saveSession(response);
                     auth.showInfo('Logged Successfully!');
-                    this.loggedIn = sessionStorage.getItem('authtoken');
+                    context.loggedIn = sessionStorage.getItem('authtoken');
                     context.username = sessionStorage.getItem('username');
                     context.redirect('#/home');
                 })
@@ -122,7 +125,7 @@ $(() => {
                 .catch(auth.handleError);
         }
 
-        const handleCatalogView = async function () {
+        const handleCatalogView = function (context) {
             const {
                 header,
                 footer,
@@ -131,19 +134,116 @@ $(() => {
             } = partialsPaths;
 
             teamsService.loadTeams(response => response.json())
-            .then((teams) => {
-                this.teams = teams;
-                this.hasNoTeam = sessionStorage.getItem('teamId');
-                
-                this.loadPartials({
-                    header,
-                    team,
-                    footer
-                }).then(function () {
-                    this.partial(catalogPage);
+                .then((teams) => {
+                    context.loggedIn = sessionStorage.getItem('authtoken');
+                    context.username = sessionStorage.getItem('username');
+                    context.teams = teams;
+                    context.hasNoTeam = !sessionStorage.getItem('teamId');
+
+                    this.loadPartials({
+                        header,
+                        team,
+                        footer
+                    }).then(function () {
+                        this.partial(catalogPage);
+                    })
                 })
-            })
         }
+
+        const handleTeamDetailsView = function (context) {
+            const teamId = this.params.teamId.substr(1);
+
+            const {
+                header,
+                footer,
+                details,
+                teamMember,
+                teamControls
+            } = partialsPaths;
+
+            requester.get('user', '', 'kinvey')
+                .then(users => {
+                    const members = users.filter(u => u.teamId === teamId);
+                    context.loggedIn = sessionStorage.getItem('authtoken');
+                    context.username = sessionStorage.getItem('username');
+                    context.teamId = teamId;
+
+                    teamsService.loadTeamDetails(teamId)
+                        .then(team => {
+                            context.members = members;
+                            context.name = team.name;
+                            context.comment = team.comment;
+                            context.isOnTeam = sessionStorage.teamId === teamId;
+                            context.isAuthor = sessionStorage.teamId === team._acl.creator;
+
+                            this.loadPartials({
+                                    header,
+                                    teamMember,
+                                    teamControls,
+                                    footer
+                                })
+                                .then(function () {
+                                    this.partial(details)
+                                })
+                        })
+                        .catch(auth.handleError);
+                })
+                .catch(auth.handleError);
+        }
+
+        // TODO => JOIN TEAM
+        // TODO => LEAVE TEAM
+        //TODO => CREATE TEAM
+        //TODO => EDIT TEAM
+
+        const handleCreateTeamView = function (context) {
+            const {
+                header,
+                footer,
+                createForm,
+                createPage
+            } = partialsPaths;
+
+            context.loggedIn = sessionStorage.getItem('authtoken');
+            context.username = sessionStorage.getItem('username');
+
+            context.loadPartials({
+                    header,
+                    footer,
+                    createForm
+                })
+                .then(function () {
+                    this.partial(createPage)
+                })
+        }
+
+        // const createTeam = function() {
+
+        // }
+
+        const handleJoinTeam = function(context) {
+            const teamId = this.params.teamId.substr(1);
+
+            teamsService.joinTeam(teamId).
+            then(() => {
+            this.redirect(`#/catalog/:${teamId}`);
+            })
+            .catch(auth.handleError);
+        }
+
+        const handleLeaveTeam = function(context) {
+            console.log(this)
+            const teamId = sessionStorage.teamId.substr(1);
+
+            teamsService.leaveTeam().
+            then(() => {
+            this.redirect(`#/catalog/:${teamId}`);
+            })
+            .catch(auth.handleError);
+        }
+
+
+
 
         this.get('#/home', handleHomeView);
         this.get('#/about', handleAboutView);
@@ -153,6 +253,13 @@ $(() => {
         this.post('#/register', handleRegisteredUserView);
         this.get('#/logout', handleLogout);
         this.get('#/catalog', handleCatalogView);
+        this.get('#/catalog/:teamId', handleTeamDetailsView);
+        this.get('#/join/:teamId', handleJoinTeam);
+        this.get('#/leave', handleLeaveTeam);
+
+
+        this.get('#/create', handleCreateTeamView);
+       // this.post('#/create', createTeam);
 
 
     });
