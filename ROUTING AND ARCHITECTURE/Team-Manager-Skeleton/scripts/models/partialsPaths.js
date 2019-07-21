@@ -1,0 +1,15 @@
+    const partialsPaths = {
+        homePage: './templates/home/home.hbs',
+        aboutPage : './templates/about/about.hbs',
+        header: './templates/common/header.hbs',
+        footer: './templates/common/footer.hbs',
+        registerForm: './templates/register/registerForm.hbs',
+        registerPage: './templates/register/registerPage.hbs',
+        loginForm: './templates/login/loginForm.hbs',
+        loginPage: './templates/login/loginPage.hbs',
+        catalogPage: './templates/catalog/teamCatalog.hbs',
+        team : './templates/catalog/team.hbs',
+        details : './templates/catalog/details.hbs',
+        teamControls : './templates/catalog/teamControls.hbs',
+        teamMembers : './templates/catalog/teamMembers.hbs',
+    }
