@@ -3,6 +3,8 @@ $(() => {
         let currentTeam = '';
         this.use('Handlebars', 'hbs');
 
+        //TODO EXPORT THESE IN CONTROLLER
+        //TODO REFACTOR
         const handleHomeView = function () { // takes context as param
             const {
                 header,
