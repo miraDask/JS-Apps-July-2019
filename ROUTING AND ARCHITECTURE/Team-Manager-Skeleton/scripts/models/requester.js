@@ -16,7 +16,7 @@ let requester = (() => {
             'Authorization': makeAuth(auth),
         }
 
-        if(method === 'PUT') {
+        if(method === 'PUT' ) {
             headers = {
                 'Authorization': makeAuth(auth),
                 'Content-Type' : 'application/json'

@@ -13,5 +13,7 @@
         teamControls : './templates/catalog/teamControls.hbs',
         teamMember : './templates/catalog/teamMember.hbs',
         createForm : './templates/create/createForm.hbs',
-        createPage : './templates/create/createPage.hbs'
+        createPage : './templates/create/createPage.hbs',
+        editForm : './templates/edit/editForm.hbs',
+        editPage : './templates/edit/editPage.hbs'
     }

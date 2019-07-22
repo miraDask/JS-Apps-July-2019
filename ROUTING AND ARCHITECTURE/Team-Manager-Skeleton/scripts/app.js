@@ -1,5 +1,6 @@
 $(() => {
     const app = Sammy('#main', function () {
+        let currentTeam = '';
         this.use('Handlebars', 'hbs');
 
         const handleHomeView = function () { // takes context as param
@@ -11,7 +12,8 @@ $(() => {
 
             this.loggedIn = sessionStorage.getItem('authtoken');
             this.username = sessionStorage.getItem('username');
-
+            this.hasTeam = !!sessionStorage.getItem('teamId');
+            this.teamId = sessionStorage.getItem('teamId');
             this.loadPartials({
                     header,
                     footer
@@ -152,7 +154,6 @@ $(() => {
 
         const handleTeamDetailsView = function (context) {
             const teamId = context.params.teamId.substr(1);
-               console.log(this)
             const {
                 header,
                 footer,
@@ -172,9 +173,11 @@ $(() => {
                         .then(team => {
                             context.members = members;
                             context.name = team.name;
+                            currentTeam = team.name;
                             context.comment = team.comment;
                             context.isOnTeam = sessionStorage.teamId === teamId;
                             context.isAuthor = sessionStorage.userId === team._acl.creator;
+                            context.hasNoTeam = !sessionStorage.teamId;
 
                             this.loadPartials({
                                     header,
@@ -212,13 +215,63 @@ $(() => {
                 })
         }
 
-        
-        //TODO => CREATE TEAM
-        //TODO => EDIT TEAM
+        const createTeam = function () {
+            const {
+                name,
+                comment
+            } = this.params;
 
-        // const createTeam = function() {
+            if (!name) {
+                auth.showInfo('Team name can not be empty!');
+                return;
+            }
 
-        // }
+            teamsService.createTeam(name, comment)
+                .then((team) => {
+                    const teamId = team._id
+                    sessionStorage.teamId = teamId;
+                    teamsService.joinTeam(teamId);
+                    this.redirect(`#/catalog/:${teamId}`);
+                })
+        }
+
+        const handleEditTeamView = function () {
+            const {
+                header,
+                footer,
+                editForm,
+                editPage
+            } = partialsPaths;
+
+            this.teamId = sessionStorage.teamId;
+
+            this.loadPartials({
+                    header,
+                    footer,
+                    editForm
+                })
+                .then(function () {
+                    this.partial(editPage);
+                })
+        }
+
+        const editTeam = function () {
+            const {
+                name,
+                comment
+            } = this.params;
+            const teamId = sessionStorage.teamId;
+
+            if (!name) {
+                auth.showInfo('Team name can not be empty!');
+                return;
+            }
+
+            teamsService.edit(teamId, name, comment)
+                .then(() => {
+                    this.redirect(`#/catalog/:${teamId}`);
+                })
+        }
 
         const handleJoinTeam = function (context) {
             const teamId = this.params.teamId.substr(1);
@@ -227,27 +280,25 @@ $(() => {
             then(() => {
                     sessionStorage.teamId = teamId;
                     this.redirect(`#/catalog/:${teamId}`);
-                    auth.showInfo('Successfully join the team!');
 
                 })
                 .catch(auth.handleError);
+            auth.showInfo(`You joined ${currentTeam} team successfully!`);
         }
 
         const handleLeaveTeam = function (context) {
-            console.log(this)
             const teamId = sessionStorage.teamId;
 
             teamsService.leaveTeam().
             then(() => {
                     this.redirect(`#/catalog/:${teamId}`);
-                    auth.showInfo('Successfully leave the team!');
                     sessionStorage.teamId = '';
                 })
                 .catch(auth.handleError);
+
+            auth.showInfo(`You leaved ${currentTeam} team successfully!`);
+
         }
-
-
-
 
         this.get('#/home', handleHomeView);
         this.get('#/about', handleAboutView);
@@ -260,12 +311,10 @@ $(() => {
         this.get('#/catalog/:teamId', handleTeamDetailsView);
         this.get('#/join/:teamId', handleJoinTeam);
         this.get('#/leave', handleLeaveTeam);
-
-
         this.get('#/create', handleCreateTeamView);
-        // this.post('#/create', createTeam);
-
-
+        this.post('#/create', createTeam);
+        this.get('#/edit/:teamId', handleEditTeamView);
+        this.post('#/edit/:teamId', editTeam);
     });
 
     app.run('#/home');
