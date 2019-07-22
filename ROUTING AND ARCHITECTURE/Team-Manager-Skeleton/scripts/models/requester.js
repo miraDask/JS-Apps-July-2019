@@ -16,11 +16,12 @@ let requester = (() => {
             'Authorization': makeAuth(auth),
         }
 
-        if(method === 'PUT' ) {
-            headers = {
-                'Authorization': makeAuth(auth),
-                'Content-Type' : 'application/json'
-            }
+        if(method === 'PUT') {
+            headers["Content-Type"] = 'application/json';
+            // headers = {
+            //     'Authorization': makeAuth(auth),
+            //     'Content-Type' : 'application/json'
+            // }
         }
 
         return req = {

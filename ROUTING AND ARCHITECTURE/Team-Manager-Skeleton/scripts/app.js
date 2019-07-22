@@ -25,17 +25,17 @@ $(() => {
                 })
         }
 
-        const handleAboutView = function (context) {
+        const handleAboutView = function () {
             const {
                 header,
                 footer,
                 aboutPage
             } = partialsPaths;
 
-            context.loggedIn = sessionStorage.getItem('authtoken');
-            context.username = sessionStorage.getItem('username');
+            this.loggedIn = sessionStorage.getItem('authtoken');
+            this.username = sessionStorage.getItem('username');
 
-            context.loadPartials({
+            this.loadPartials({
                     header,
                     footer
                 })
@@ -80,7 +80,7 @@ $(() => {
                 })
         }
 
-        const handleLoggedInUserView = function (context) {
+        const handleLoggedInUserView = function () {
             const {
                 username,
                 password
@@ -90,14 +90,14 @@ $(() => {
                 .then(response => {
                     auth.saveSession(response);
                     auth.showInfo('Logged Successfully!');
-                    context.loggedIn = sessionStorage.getItem('authtoken');
-                    context.username = sessionStorage.getItem('username');
-                    context.redirect('#/home');
+                    this.loggedIn = sessionStorage.getItem('authtoken');
+                    this.username = sessionStorage.getItem('username');
+                    this.redirect('#/home');
                 })
                 .catch(auth.handleError);
         }
 
-        const handleRegisteredUserView = function (context) {
+        const handleRegisteredUserView = function () {
             const {
                 username,
                 password,
@@ -113,23 +113,23 @@ $(() => {
                 .then(response => {
                     auth.saveSession(response);
                     auth.showInfo('Registered Successfully!');
-                    context.loggedIn = sessionStorage.authtoken;
-                    context.redirect('#/home');
+                    this.loggedIn = sessionStorage.authtoken;
+                    this.redirect('#/home');
                 })
                 .catch(auth.handleError);
         }
 
-        const handleLogout = function (context) {
+        const handleLogout = function () {
             auth.logout()
                 .then(() => {
                     sessionStorage.clear();
-                    context.redirect('#/home');
+                    this.redirect('#/home');
                     auth.showInfo('Logged Out Successfully!')
                 })
                 .catch(auth.handleError);
         }
 
-        const handleCatalogView = function (context) {
+        const handleCatalogView = function () {
             const {
                 header,
                 footer,
@@ -139,10 +139,10 @@ $(() => {
 
             teamsService.loadTeams(response => response.json())
                 .then((teams) => {
-                    context.loggedIn = sessionStorage.getItem('authtoken');
-                    context.username = sessionStorage.getItem('username');
-                    context.teams = teams;
-                    context.hasNoTeam = !sessionStorage.getItem('teamId');
+                    this.loggedIn = sessionStorage.getItem('authtoken');
+                    this.username = sessionStorage.getItem('username');
+                    this.teams = teams;
+                    this.hasNoTeam = !sessionStorage.getItem('teamId');
 
                     this.loadPartials({
                         header,
@@ -154,8 +154,8 @@ $(() => {
                 })
         }
 
-        const handleTeamDetailsView = function (context) {
-            const teamId = context.params.teamId.substr(1);
+        const handleTeamDetailsView = function () {
+            const teamId = this.params.teamId.substr(1);
             const {
                 header,
                 footer,
@@ -167,19 +167,19 @@ $(() => {
             requester.get('user', '', 'kinvey')
                 .then(users => {
                     const members = users.filter(u => u.teamId === teamId);
-                    context.loggedIn = sessionStorage.getItem('authtoken');
-                    context.username = sessionStorage.getItem('username');
-                    context.teamId = teamId;
+                    this.loggedIn = sessionStorage.getItem('authtoken');
+                    this.username = sessionStorage.getItem('username');
+                    this.teamId = teamId;
 
                     teamsService.loadTeamDetails(teamId)
                         .then(team => {
-                            context.members = members;
-                            context.name = team.name;
+                            this.members = members;
+                            this.name = team.name;
                             currentTeam = team.name;
-                            context.comment = team.comment;
-                            context.isOnTeam = sessionStorage.teamId === teamId;
-                            context.isAuthor = sessionStorage.userId === team._acl.creator;
-                            context.hasNoTeam = !sessionStorage.teamId;
+                            this.comment = team.comment;
+                            this.isOnTeam = sessionStorage.teamId === teamId;
+                            this.isAuthor = sessionStorage.userId === team._acl.creator;
+                            this.hasNoTeam = !sessionStorage.teamId;
 
                             this.loadPartials({
                                     header,
@@ -196,7 +196,7 @@ $(() => {
                 .catch(auth.handleError);
         }
 
-        const handleCreateTeamView = function (context) {
+        const handleCreateTeamView = function () {
             const {
                 header,
                 footer,
@@ -204,10 +204,10 @@ $(() => {
                 createPage
             } = partialsPaths;
 
-            context.loggedIn = sessionStorage.getItem('authtoken');
-            context.username = sessionStorage.getItem('username');
+            this.loggedIn = sessionStorage.getItem('authtoken');
+            this.username = sessionStorage.getItem('username');
 
-            context.loadPartials({
+            this.loadPartials({
                     header,
                     footer,
                     createForm
@@ -275,7 +275,7 @@ $(() => {
                 })
         }
 
-        const handleJoinTeam = function (context) {
+        const handleJoinTeam = function () {
             const teamId = this.params.teamId.substr(1);
 
             teamsService.joinTeam(teamId).
@@ -288,7 +288,7 @@ $(() => {
             auth.showInfo(`You joined ${currentTeam} team successfully!`);
         }
 
-        const handleLeaveTeam = function (context) {
+        const handleLeaveTeam = function () {
             const teamId = sessionStorage.teamId;
 
             teamsService.leaveTeam().
