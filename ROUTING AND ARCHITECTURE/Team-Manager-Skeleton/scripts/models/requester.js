@@ -21,7 +21,6 @@ let requester = (() => {
                 'Authorization': makeAuth(auth),
                 'Content-Type' : 'application/json'
             }
-            
         }
 
         return req = {

@@ -151,8 +151,8 @@ $(() => {
         }
 
         const handleTeamDetailsView = function (context) {
-            const teamId = this.params.teamId.substr(1);
-
+            const teamId = context.params.teamId.substr(1);
+               console.log(this)
             const {
                 header,
                 footer,
@@ -174,7 +174,7 @@ $(() => {
                             context.name = team.name;
                             context.comment = team.comment;
                             context.isOnTeam = sessionStorage.teamId === teamId;
-                            context.isAuthor = sessionStorage.teamId === team._acl.creator;
+                            context.isAuthor = sessionStorage.userId === team._acl.creator;
 
                             this.loadPartials({
                                     header,
@@ -190,11 +190,6 @@ $(() => {
                 })
                 .catch(auth.handleError);
         }
-
-        // TODO => JOIN TEAM
-        // TODO => LEAVE TEAM
-        //TODO => CREATE TEAM
-        //TODO => EDIT TEAM
 
         const handleCreateTeamView = function (context) {
             const {
@@ -217,29 +212,38 @@ $(() => {
                 })
         }
 
+        
+        //TODO => CREATE TEAM
+        //TODO => EDIT TEAM
+
         // const createTeam = function() {
 
         // }
 
-        const handleJoinTeam = function(context) {
+        const handleJoinTeam = function (context) {
             const teamId = this.params.teamId.substr(1);
 
             teamsService.joinTeam(teamId).
             then(() => {
-            this.redirect(`#/catalog/:${teamId}`);
-            })
-            .catch(auth.handleError);
+                    sessionStorage.teamId = teamId;
+                    this.redirect(`#/catalog/:${teamId}`);
+                    auth.showInfo('Successfully join the team!');
+
+                })
+                .catch(auth.handleError);
         }
 
-        const handleLeaveTeam = function(context) {
+        const handleLeaveTeam = function (context) {
             console.log(this)
-            const teamId = sessionStorage.teamId.substr(1);
+            const teamId = sessionStorage.teamId;
 
             teamsService.leaveTeam().
             then(() => {
-            this.redirect(`#/catalog/:${teamId}`);
-            })
-            .catch(auth.handleError);
+                    this.redirect(`#/catalog/:${teamId}`);
+                    auth.showInfo('Successfully leave the team!');
+                    sessionStorage.teamId = '';
+                })
+                .catch(auth.handleError);
         }
 
 
@@ -259,7 +263,7 @@ $(() => {
 
 
         this.get('#/create', handleCreateTeamView);
-       // this.post('#/create', createTeam);
+        // this.post('#/create', createTeam);
 
 
     });
