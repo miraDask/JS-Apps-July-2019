@@ -46,7 +46,6 @@ let teamsService = (() => {
        return requester.update('user', sessionStorage.getItem('userId'), 'kinvey', userData);
     }
 
-
     return {
         loadTeams,
         loadTeamDetails,

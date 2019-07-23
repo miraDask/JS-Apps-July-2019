@@ -18,10 +18,6 @@ let requester = (() => {
 
         if(method === 'PUT') {
             headers["Content-Type"] = 'application/json';
-            // headers = {
-            //     'Authorization': makeAuth(auth),
-            //     'Content-Type' : 'application/json'
-            // }
         }
 
         return req = {
