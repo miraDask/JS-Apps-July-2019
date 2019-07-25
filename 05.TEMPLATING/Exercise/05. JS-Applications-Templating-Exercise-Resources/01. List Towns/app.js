@@ -1,29 +1,38 @@
-const townsInput = document.getElementById('towns');
-const loadBtn = document.getElementById('btnLoadTowns');
-const root = document.getElementById('root');
+(() => {
+    const townsInput = document.getElementById('towns');
+    const loadBtn = document.getElementById('btnLoadTowns');
+    const root = document.getElementById('root');
 
-loadBtn.addEventListener('click', loadListOfTowns)
+    loadBtn.addEventListener('click', loadListOfTowns);
 
-function loadListOfTowns() {
+    async function loadListOfTowns(ev) {
+        ev.preventDefault();
+        
+        const inputValue = townsInput.value;
 
-    const towns = townsInput.value.split(', ')
-        .reduce((acc, curr) => {
-            acc[curr] = {
-                name: curr
-            };
-            return acc;
-        }, {})
+        if (!inputValue) {
+            return;
+        }
 
-    renderTowns(towns)
+        const towns = inputValue
+            .split(', ')
+            .map(t => ({
+                name: t
+            }))
+        debugger
 
-}
+        const townsHtml = await getTowns(towns);
+        root.innerHTML = townsHtml;
+    }
 
-async function renderTowns(towns) {
-    const response = await fetch('templates/list.hbs');
-    const listTemplate = await response.text();
-    const templateFunc = Handlebars.compile(listTemplate);
-    const html = templateFunc({
-        towns
-    });
-    root.innerHTML = html;
-}
+    async function getTowns(towns) {
+        const response = await fetch('templates/list.hbs');
+        const listTemplate = await response.text();
+        const templateFunc = Handlebars.compile(listTemplate);
+        const html = templateFunc({
+            towns
+        });
+
+        return html;
+    }
+})()
