@@ -13,17 +13,9 @@ const homeController = (function () {
         if (loggedIn) {
             context.username = storage.getData('username');
             context.loggedIn = loggedIn;
-            //debugger
-            items = await userModel.getItems();
-           
-            // TODO MOVE userModel.getItems TO ITEMCONTROLLER  AND ITEMMODEL
-            if (!storage.getData('items')) {
-                storage.saveData('items', JSON.stringify(items));
-            } 
-
+            items = await itemModel.getAllItems();
             context.hasCreated = items.length > 0;
             context.items = items;
-            
         } 
 
         context.loadPartials({

@@ -77,10 +77,8 @@ const userController = (() => {
 
     const getUser = async function (context) {
         try {
-            let items = await userModel.getItems();
+            let items = await itemModel.getAllItems();
             const userId = storage.getData('userId');
-            console.log(items[0]._acl.creator)
-            console.log(userId)
 
             items = items.filter(i => i._acl.creator === userId);
             context.items = items;
@@ -104,14 +102,9 @@ const userController = (() => {
     const getCreate = function (context) {
 
         try {
-
-            const loggedIn = storage.getData('username') !== null;
-
-            if (loggedIn) {
-                context.username = storage.getData('username');
-                context.loggedIn = loggedIn;
-            }
-
+            context.loggedIn = storage.getData('username') !== null;
+            context.username = storage.getData('username');
+          
             context.loadPartials({
                 header,
                 notifications,
@@ -129,9 +122,8 @@ const userController = (() => {
         try {
             itemModel.create(context)
                 .then(validator.response)
-                .then((item) => {
-                    storage.addItem(item);
-                    context.redirect('#/user');
+                .then(() => {
+                    context.redirect('#/home');
                 })
         } catch (err) {
             console.log('error')
@@ -140,19 +132,15 @@ const userController = (() => {
 
     const getEdit = function (context) {
         try {
-            const loggedIn = storage.getData('username') !== null;
-
-            if (loggedIn) {
-                context.username = storage.getData('username');
-                context.loggedIn = loggedIn;
-            }
+            context.loggedIn = storage.getData('username') !== null;
+            context.username = storage.getData('username');
 
             context.loadPartials({
                 header,
                 notifications,
                 footer
             }).then(function () {
-                this.partial(constants.partials.itemEdit);
+                this.partial(constants.partials.itemEdit);  
             })
         } catch (err) {
             notificationsHandler.displayError(err.message);

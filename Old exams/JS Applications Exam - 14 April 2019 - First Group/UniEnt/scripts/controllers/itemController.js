@@ -1,8 +1,8 @@
 const itemController = (() => {
 
-    const getItemDetails = function (context) {
+    const getItemDetails = async function (context) {
         const itemId = context.params.itemId;
-        context.item = storage.getItems().filter(i => i._id === itemId)[0];
+        context.item = await itemModel.getItem(itemId);
         const loggedIn = true;
         context.loggedIn = loggedIn;
         context.username = storage.getData('username');
@@ -22,12 +22,21 @@ const itemController = (() => {
         }).then(function () {
             this.partial(details);
         })
+    }
 
+    const getJoin = async function (context) {
+       await itemModel.join(context.params.itemId);
+       context.redirect(`#/details/${context.params.itemId}`);
+    }
 
-
+    const getDelete = async function(context) {
+       await itemModel.del(context.params.itemId);
+       context.redirect(`#/home`);
     }
 
     return {
-        getItemDetails
+        getItemDetails,
+        getJoin,
+        getDelete
     }
 })();

@@ -15,16 +15,6 @@ const storage = function () {
 
     };
 
-    const addItem = function (item) {
-        const items = JSON.parse(getData('items'));
-        items.push(item);
-        localStorage["items"] = JSON.stringify(items);
-    }
-
-    const getItems = function () {
-        return JSON.parse(getData('items'));
-    }
-
     const deleteUser = function () {
         localStorage.clear()
     };
@@ -34,7 +24,5 @@ const storage = function () {
         saveData,
         saveUser,
         deleteUser,
-        addItem,
-        getItems
     }
 }();

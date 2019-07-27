@@ -44,29 +44,9 @@ const userModel = (() => {
         return requester.post(url, headers);
     };
 
-    const getItems = async function () {
-        let items = null;
-
-        if (storage.getData('items') !== null) {
-            items = storage.getItems()
-        } else {
-
-            const url = constants.url.items;
-            const headers = {
-                headers: {}
-            }
-
-            const response = await requester.get(url, headers);
-            items = await validator.response(response);
-        }
-
-        return items;
-    }
-
     return {
         register,
         login,
         logout,
-        getItems
     }
 })();
