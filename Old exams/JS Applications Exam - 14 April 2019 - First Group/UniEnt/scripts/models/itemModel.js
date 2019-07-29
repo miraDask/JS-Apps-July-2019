@@ -1,5 +1,6 @@
 const itemModel = (() => {
 
+    //TODO ERROR HANDLING MOVE TO CONTROLLER
     const create = function (context) {
         const url = constants.url.items;
         const {
@@ -28,14 +29,9 @@ const itemModel = (() => {
         return requester.post(url, headers);
 
     }
-    const edit = function () {
-
-    }
 
     const showDetails = function (id) {
-
         const itemHolder = document.getElementById(`${id}`);
-
         itemHolder.style.display = itemHolder.style.display === 'none' ? '' : 'none';
     }
 
@@ -72,25 +68,47 @@ const itemModel = (() => {
                 body: JSON.stringify(item)
             }
 
-           const response = requester.put(url, headers);
-           await validator.response(response);
-           
+            const response = requester.put(url, headers);
+            await validator.response(response);
+
         } catch (err) {
             //TODO
         }
     }
 
-    const del = async function(id) {
-        try{
+    const del = async function (id) {
+        try {
             const url = constants.url.items + `/${id}`;
-        const headers = {
-            headers: {},
-        }
+            const headers = {
+                headers: {},
+            }
 
-       const response = requester.del(url, headers);
-       validator.response(response);
-        } catch(err) {
+            const response = requester.del(url, headers);
+            validator.response(response);
+        } catch (err) {
             //todo
+        }
+    }
+
+    const edit = async function (context) {
+        try {
+            const itemId = context.params.itemId;
+            const body = {
+                ...context.params
+            };
+            delete body["itemId"];
+            const headers = {
+                headers: {},
+                body : JSON.stringify(body)
+            }
+
+            const url = constants.url.items + `/${itemId}`;
+            const response = await requester.put(url, headers);
+            validator.response(response);
+
+        } catch (err) {
+            console.log('err');
+
         }
     }
 
@@ -98,7 +116,7 @@ const itemModel = (() => {
         create,
         edit,
         join,
-        del, 
+        del,
         showDetails,
         getItem,
         getAllItems

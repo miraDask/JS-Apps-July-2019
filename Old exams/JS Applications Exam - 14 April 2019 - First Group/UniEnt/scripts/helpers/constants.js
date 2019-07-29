@@ -22,7 +22,6 @@ const constants = (() => {
         login : baseUrl + `/user/${appKey}/login`,
         logout : baseUrl + `/user/${appKey}/_logout`,
         // this is for PUT , DELETE requests  -  you should add itemId at the end
-        edit : baseUrl + `/appdata/${appKey}/`,
         items : baseUrl +  `/appdata/${appKey}/items` 
     }
 

@@ -20,22 +20,19 @@ const app = Sammy('#root', function () {
     // Item
     this.get('#/create', userController.getCreate);
     this.post('#/create', userController.postCreate);
-
-   // this.get('#/edit', userController.getEdit);
-    this.get('#/details/:itemId/edit', itemController.getEdit);
-    this.post('#/details/:itemId/edit', userController.postEdit);
-
+    
     this.get('#/details/:itemId', itemController.getItemDetails)
+
+    this.get('#/details/:itemId/edit', itemController.getEdit);
+    this.post('#/details/:itemId/edit', itemController.postEdit);
+
 
     this.get('#/details/:itemId/join', itemController.getJoin);
     this.get('#/details/:itemId/close', itemController.getDelete);
 
 
-    //TODO display all events on homePage
     //? handle notifications
-    // edit event
-    // delete event
-    // ??? subscribe
+    // refactor subscribe
 });
 
 (() => {

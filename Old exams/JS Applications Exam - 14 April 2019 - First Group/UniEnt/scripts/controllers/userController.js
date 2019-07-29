@@ -36,6 +36,15 @@ const userController = (() => {
 
     const postRegister = function (context) {
         try {
+            passwordIsCorrect = validator.register(context.params.username, context.params.password, context.params.rePassword)
+            if(!passwordIsCorrect) {
+                throw new Error(`
+                The username should be at least 3 characters long.
+                The password should be at least 6 characters long.
+                The repeat password should be equal to the password.
+                `)
+            }
+
             userModel.register(context.params)
                 .then(validator.response)
                 .then((data) => {
@@ -130,34 +139,6 @@ const userController = (() => {
         }
     }
 
-    const getEdit = function (context) {
-        try {
-            context.loggedIn = storage.getData('username') !== null;
-            context.username = storage.getData('username');
-
-            context.loadPartials({
-                header,
-                notifications,
-                footer
-            }).then(function () {
-                this.partial(constants.partials.itemEdit);  
-            })
-        } catch (err) {
-            notificationsHandler.displayError(err.message);
-        }
-    }
-
-    const postEdit = function (context) {
-        try {
-            itemModel.create(context)
-                .then(validator.response)
-                .then(() => {
-                    //TODO
-                })
-        } catch (err) {
-
-        }
-    }
 
     return {
         getRegister,
@@ -168,7 +149,5 @@ const userController = (() => {
         getUser,
         getCreate,
         postCreate,
-        getEdit,
-        postEdit
     }
 })();

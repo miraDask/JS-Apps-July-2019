@@ -2,7 +2,7 @@ const validator = function () {
 
     const response = (response) => {
         if (response.status >= 400) {
-            
+
             throw new Error(`Something went wrong. Error: ${response.statusText}`);
         }
 
@@ -13,8 +13,11 @@ const validator = function () {
         return response;
     }
 
-    const password = (password, repeatedPassword) => {
-        return password === repeatedPassword;
+    const register = (username, password, repeatedPassword) => {
+        const passwordIsCorrect = username.length >= 3 &&
+            password.length >= 6 &&
+            password === repeatedPassword;
+        return passwordIsCorrect
     }
 
     // const inputIsFilled = (data) {
@@ -26,7 +29,7 @@ const validator = function () {
 
     return {
         response,
-        password,
+        register,
         // inputIsFilled
     }
 }()
