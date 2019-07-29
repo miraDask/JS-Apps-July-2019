@@ -24,7 +24,7 @@ const itemController = (() => {
                 this.partial(details);
             })
         } catch (err) {
-            notificationsHandler.displayError(err.message);
+           // notificationsHandler.displayError(err.message);
 
         }
     }
@@ -32,21 +32,21 @@ const itemController = (() => {
     const getJoin = async function (context) {
         try {
             await itemModel.join(context.params.itemId);
-            notificationsHandler.displayMessage(constants.successMessages.join);
+           // notificationsHandler.displayMessage(constants.successMessages.join);
             context.redirect(`#/details/${context.params.itemId}`);
         } catch (err) {
-            notificationsHandler.displayError(err.message);
+          //  notificationsHandler.displayError(err.message);
         }
     }
 
     const getDelete = async function (context) {
         try {
             await itemModel.del(context.params.itemId);
-            notificationsHandler.displayMessage(constants.successMessages.deleted)
+           // notificationsHandler.displayMessage(constants.successMessages.deleted)
             homeController.getHome(context);
 
         } catch (err) {
-            notificationsHandler.displayError(err.message);
+           // notificationsHandler.displayError(err.message);
         }
     }
 
@@ -67,7 +67,7 @@ const itemController = (() => {
                 this.partial(itemEdit);
             })
         } catch (err) {
-            notificationsHandler.displayError(err.message);
+           // notificationsHandler.displayError(err.message);
         }
     }
 
@@ -76,11 +76,11 @@ const itemController = (() => {
             itemModel.edit(context)
                 .then(async () => {
 
-                    notificationsHandler.displayMessage(constants.successMessages.edited);
+                   // notificationsHandler.displayMessage(constants.successMessages.edited);
                     context.redirect(`#/details/${context.params.itemId}`);
                 })
         } catch (err) {
-            notificationsHandler.displayError(err.message);
+          //  notificationsHandler.displayError(err.message);
         }
     }
 

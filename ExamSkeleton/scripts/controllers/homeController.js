@@ -28,7 +28,7 @@ const homeController = (function () {
             })
 
         } catch (err) {
-            notificationsHandler.displayError(err.message);
+           // notificationsHandler.displayError(err.message);
         }
     };
 
