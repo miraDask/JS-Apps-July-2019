@@ -1,15 +1,15 @@
 const userController = (() => {
     const {
-        header,
         notifications,
+        header,
         footer,
     } = constants.partials;
 
     const getRegister = function (context) {
         try {
             context.loadPartials({
-                header,
                 notifications,
+                header,
                 footer
             }).then(function () {
                 this.partial(constants.partials.register);
@@ -22,8 +22,8 @@ const userController = (() => {
     const getLogin = function (context) {
         try {
             context.loadPartials({
-                header,
                 notifications,
+                header,
                 footer
             }).then(function () {
                 this.partial(constants.partials.login);
@@ -36,19 +36,16 @@ const userController = (() => {
 
     const postRegister = function (context) {
         try {
-            passwordIsCorrect = validator.register(context.params.username, context.params.password, context.params.rePassword)
-            if(!passwordIsCorrect) {
-                throw new Error(`
-                The username should be at least 3 characters long.
-                The password should be at least 6 characters long.
-                The repeat password should be equal to the password.
-                `)
+            const correctData = validator.register(context.params.username, context.params.password, context.params.rePassword)
+            
+            if(!correctData) {
+                throw new Error(error)
             }
 
             userModel.register(context.params)
                 .then(validator.response)
                 .then((data) => {
-                    validator.password(context.params.password, context.params.rePassword);
+                    notificationsHandler.displayMessage(constants.successMessages.register)
                     storage.saveUser(data);
                     context.redirect('#/home');
                 })
@@ -63,6 +60,7 @@ const userController = (() => {
             userModel.login(context.params)
                 .then(validator.response)
                 .then((data) => {
+                    notificationsHandler.displayMessage(constants.successMessages.login)
                     storage.saveUser(data);
                     context.redirect('#/home');
                 })
@@ -76,6 +74,7 @@ const userController = (() => {
             userModel.logout()
                 .then(validator.response)
                 .then(() => {
+                    notificationsHandler.displayMessage(constants.successMessages.logout)
                     storage.deleteUser();
                     homeController.getHome(context);
                 });
@@ -97,8 +96,8 @@ const userController = (() => {
             context.loggedIn = true;
 
             context.loadPartials({
-                header,
                 notifications,
+                header,
                 footer
             }).then(function () {
                 this.partial(constants.partials.user);
@@ -115,8 +114,8 @@ const userController = (() => {
             context.username = storage.getData('username');
           
             context.loadPartials({
-                header,
                 notifications,
+                header,
                 footer
             }).then(function () {
                 this.partial(constants.partials.itemCreate);
@@ -125,20 +124,19 @@ const userController = (() => {
             notificationsHandler.displayError(err.message);
         }
     }
-    //TODO CHECK
 
     const postCreate = function (context) {
         try {
             itemModel.create(context)
                 .then(validator.response)
                 .then(() => {
-                    context.redirect('#/home');
+                    notificationsHandler.displayMessage(constants.successMessages.created)
+                    homeController.getHome(context);
                 })
         } catch (err) {
-            console.log('error')
+            notificationsHandler.displayError(err.message);
         }
     }
-
 
     return {
         getRegister,

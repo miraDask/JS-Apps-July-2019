@@ -20,16 +20,12 @@ const validator = function () {
         return passwordIsCorrect
     }
 
-    // const inputIsFilled = (data) {
-    //     data.forEach(element => {
-    //         if(!element) return false;
-    //     });
-    //     return true;
+    // const create = ({imageURL, description, name, dateTime}) => {
+    //     //TODO
     // }
 
     return {
         response,
-        register,
-        // inputIsFilled
+        register
     }
 }()

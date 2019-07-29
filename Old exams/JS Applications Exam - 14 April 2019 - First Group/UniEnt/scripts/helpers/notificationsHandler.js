@@ -1,30 +1,37 @@
 const notificationsHandler = (() => {
-    const errorBox = constants.elements.errorBox;
-    const successBox = constants.elements.successBox;
-    const loadingBox = constants.elements.loadingBox;
 
+    const fadeOut = (element) => {
+        var s = element.style;
+        s.opacity = 1;
+        (function fade() {
+            (s.opacity -= .1) < 0 ? s.display = "none" : setTimeout(fade, 1000)
+        })();
+    }
 
     const displayError = (message) => {
-        setTimeout(() => {
-            errorBox.style.display = '';
-            errorBox.textContent = message;
-        }, 5000);
+        const errorBox = constants.elements.getErrorBox();
+        errorBox.style.display = 'block';
+        errorBox.textContent = message;
+
+        fadeOut(errorBox);
     }
 
     const displayMessage = (message) => {
-        setTimeout(() => {
-           successBox.style.display = '';
-           successBox.textContent = message;
-        }, 5000);
+        const successBox = constants.elements.getSuccessBox();
+        successBox.style.display = 'block';
+        successBox.textContent = message;
+
+        fadeOut(successBox);
     }
 
-    const displayLoading = () => {
-        loadingBox.style.display = '';
-    }
+    // const displayLoading = () => {
+    //     const loadingBox = constants.elements.getLoadingBox();
+    //     loadingBox.style.display = 'block';
+    // }
 
     return {
         displayError,
-        displayLoading,
+       // displayLoading,
         displayMessage
     }
-})
+})()

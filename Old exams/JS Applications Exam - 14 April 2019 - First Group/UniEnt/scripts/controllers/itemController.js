@@ -1,40 +1,57 @@
 const itemController = (() => {
     const {
-        header,
         notifications,
+        header,
         footer,
         details,
         itemEdit
     } = constants.partials;
 
-    const getItemDetails = async function (context) {   // (context, item))
-        const itemId = context.params.itemId;
-        context.item = await itemModel.getItem(itemId);
-        const loggedIn = true;
-        context.loggedIn = loggedIn;
-        context.username = storage.getData('username');
-        context.isOrganizer = context.username === context.item.organizer
+    const getItemDetails = async function (context) {
+        try {
+            const itemId = context.params.itemId;
+            context.item = await itemModel.getItem(itemId);
+            const loggedIn = true;
+            context.loggedIn = loggedIn;
+            context.username = storage.getData('username');
+            context.isOrganizer = context.username === context.item.organizer
 
-        context.loadPartials({
-            header,
-            notifications,
-            footer
-        }).then(function () {
-            this.partial(details);
-        })
+            context.loadPartials({
+                notifications,
+                header,
+                footer
+            }).then(function () {
+                this.partial(details);
+            })
+        } catch (err) {
+            notificationsHandler.displayError(err.message);
+
+        }
     }
 
     const getJoin = async function (context) {
-       await itemModel.join(context.params.itemId);
-       context.redirect(`#/details/${context.params.itemId}`);
+        try {
+            await itemModel.join(context.params.itemId);
+            notificationsHandler.displayMessage(constants.successMessages.join);
+            context.redirect(`#/details/${context.params.itemId}`);
+        } catch (err) {
+            notificationsHandler.displayError(err.message);
+        }
     }
 
-    const getDelete = async function(context) {
-       await itemModel.del(context.params.itemId);
-       context.redirect(`#/home`);
+    const getDelete = async function (context) {
+        try {
+            await itemModel.del(context.params.itemId);
+            notificationsHandler.displayMessage(constants.successMessages.deleted)
+            homeController.getHome(context);
+
+        } catch (err) {
+            notificationsHandler.displayError(err.message);
+        }
     }
 
     const getEdit = async function (context) {
+
         try {
             context.loggedIn = storage.getData('username') !== null;
             context.username = storage.getData('username');
@@ -43,11 +60,11 @@ const itemController = (() => {
             context.item = item;
 
             context.loadPartials({
-                header,
                 notifications,
+                header,
                 footer
             }).then(function () {
-                this.partial(itemEdit);  
+                this.partial(itemEdit);
             })
         } catch (err) {
             notificationsHandler.displayError(err.message);
@@ -57,12 +74,13 @@ const itemController = (() => {
     const postEdit = function (context) {
         try {
             itemModel.edit(context)
-                .then(async() => {
+                .then(async () => {
+
+                    notificationsHandler.displayMessage(constants.successMessages.edited);
                     context.redirect(`#/details/${context.params.itemId}`);
                 })
         } catch (err) {
-console.log('err');
-
+            notificationsHandler.displayError(err.message);
         }
     }
 
