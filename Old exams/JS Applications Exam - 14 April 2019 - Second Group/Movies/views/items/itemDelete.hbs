@@ -1,0 +1,22 @@
+{{> header}}
+{{> notifications}}
+<div id="deleteMovie">
+      <h1>Delete movie</h1>
+      <form action="#/details/{{item._id}}/delete" method="POST">
+        <label>Title</label>
+        <input type="text" name="title" value="{{item.title}}" disabled="">
+        <label>Image Url</label>
+        <input type="text" name="imageUrl"
+          value="{{item.imageUrl}}"
+          disabled="">
+        <label>Description</label>
+        <textarea type="text" name="description"
+          disabled="">{{item.description}}</textarea>
+        <label>Genres</label>
+        <input type="text" name="genres" value="{{item.genres}}" disabled="">
+        <label>Available Tickets</label>
+        <input type="number" name="tickets" value="{{item.tickets}}" disabled="">
+        <input type="submit" value="Delete">
+      </form>
+    </div>
+    {{> footer}}

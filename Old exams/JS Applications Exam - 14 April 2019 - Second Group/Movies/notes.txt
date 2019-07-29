@@ -1,0 +1,2 @@
+1. add images
+2. add styles

@@ -1,0 +1,21 @@
+
+{{> header}}
+{{> notifications}}
+
+{{!-- details go here --}}
+ <div id="detailsMovie">
+      <h1>Details</h1>
+      <div class="movie">
+        <h2>Title: {{item.title}}</h2>
+        <img
+          src={{item.imageUrl}}>
+        <p>{{item.description}}</p>
+        <h2>Genres</h2>
+        <ul class="genres">
+          <li>{{item.genres}}</li>
+        </ul>
+        <p>Available Tickets: {{item.tickets}}</p>
+        <button><a href="#/details/{{item._id}}/buyItem">Buy Ticket</a></button>
+      </div>
+    </div>
+{{> footer }}
