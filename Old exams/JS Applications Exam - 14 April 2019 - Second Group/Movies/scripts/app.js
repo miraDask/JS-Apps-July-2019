@@ -19,7 +19,7 @@ const app = Sammy('#container', function () {
     
     // Item
     this.get('#/allItems', itemController.getItemsAll);
-   // this.get('#/allItems?search=:search', itemController.postItemsAll);
+    this.post('#/allItems?search=:genres', itemController.postSearch);
 
 
     this.get('#/create', userController.getCreate);

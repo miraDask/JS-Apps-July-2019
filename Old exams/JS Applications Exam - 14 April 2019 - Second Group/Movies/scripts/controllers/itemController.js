@@ -9,6 +9,10 @@ const itemController = (() => {
         itemDelete
     } = constants.partials;
 
+    const sortItems = (items) => {
+        return items.sort((a, b) =>  b.tickets - a.tickets);
+    } 
+
     const getItemDetails = async function (context) {
 
         try {
@@ -119,10 +123,13 @@ const itemController = (() => {
 
     const getItemsAll = async function (context) {
         try {
-            context.items = await itemModel.getAllItems();
+            const items = await itemModel.getAllItems();
+            console.log(items);
+            sortItems(items);
+
+            context.items = items;
             context.loggedIn = storage.getData('username') !== null;
             context.username = storage.getData('username');
-
             notificationsHandler.stopLoading();
 
             context.loadPartials({
@@ -136,11 +143,10 @@ const itemController = (() => {
             notificationsHandler.displayError(err.message);
         }
     }
-
+    
     // todo search part
-    // const postItemsAll = function(context) {
-    //     debugger
-    //     console.log(context)
+    // const postSearch = function(context) {
+    //     console.log(context.params)
     // }
 
     return {
@@ -151,6 +157,6 @@ const itemController = (() => {
         getEdit,
         postEdit,
         getItemsAll,
-        // postItemsAll
+       // postSearch
     }
 })();

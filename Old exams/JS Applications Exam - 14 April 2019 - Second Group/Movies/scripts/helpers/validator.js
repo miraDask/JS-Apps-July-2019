@@ -2,8 +2,11 @@ const validator = function () {
 
     const response = (response) => {
         if (response.status >= 400) {
-
-            throw new Error(`Something went wrong. Error: ${response.statusText}`);
+            
+            notificationsHandler.stopLoading();
+            notificationsHandler.displayError(`Something went wrong. Error: ${response.statusText}`)
+            throw new Error();
+            
         }
 
         if (response.status !== 204) {

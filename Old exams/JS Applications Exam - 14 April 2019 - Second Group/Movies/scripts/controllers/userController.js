@@ -68,7 +68,8 @@ const userController = (() => {
                     context.redirect('#/home');
                 })
         } catch (err) {
-           notificationsHandler.displayError(err.message);
+            userController.getLogin(context)
+           //notificationsHandler.displayError(err.message);
         }
     };
 
@@ -77,6 +78,7 @@ const userController = (() => {
             userModel.logout()
                 .then(validator.response)
                 .then(() => {
+                    notificationsHandler.stopLoading();
                     notificationsHandler.displayMessage(constants.successMessages.logout);
                     storage.deleteUser();
                     homeController.getHome(context);

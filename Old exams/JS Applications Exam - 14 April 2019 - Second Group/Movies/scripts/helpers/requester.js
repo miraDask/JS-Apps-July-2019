@@ -16,7 +16,6 @@ const requester = (() => {
     };
 
     const del = function (url, headers) {
-        debugger
         headers.method = "DELETE";
         return makeRequest(url, headers);
     };
