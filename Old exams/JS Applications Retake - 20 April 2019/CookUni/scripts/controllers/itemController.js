@@ -21,6 +21,7 @@ const itemController = (() => {
             context.username = storage.getData('username');
             context.names = `${storage.getData('firstName')} ${storage.getData('lastName')}`;
             context.id = itemId;
+            context.isCreator = storage.getData('userId') === context.item._acl.creator;
 
             notificationsHandler.stopLoading();
 
@@ -31,7 +32,7 @@ const itemController = (() => {
                 this.partial(details);
             })
         } catch (err) {
-             notificationsHandler.displayError(err.message);
+            notificationsHandler.displayError(err.message);
 
         }
     }
@@ -50,38 +51,39 @@ const itemController = (() => {
         try {
             const itemId = context.params.itemId;
             context.item = await itemModel.getItem(itemId);
-            const loggedIn = true;
-            context.loggedIn = loggedIn;
-            context.username = storage.getData('username');
-            context.names = `${storage.getData('firstName')} ${storage.getData('lastName')}`
-           
             notificationsHandler.stopLoading();
- 
-            context.loadPartials({
-                header,
-                footer
-            }).then(function () {
-                this.partial(itemDelete);
-            })
+
+            try {
+                itemModel.del(context.params.itemId)
+                    .then(() => {
+                        notificationsHandler.stopLoading();
+                        notificationsHandler.displayMessage(constants.successMessages.deleted)
+                        context.redirect('#/home');
+                    });
+
+            } catch (err) {
+
+                notificationsHandler.displayError(err.message);
+            }
         } catch (err) {
             notificationsHandler.displayError(err.message);
         }
     }
 
-    const postDelete = function (context) {
-        try {
-            itemModel.del(context.params.itemId)
-                .then(() => {
-                    notificationsHandler.stopLoading();
-                    notificationsHandler.displayMessage(constants.successMessages.deleted)
-                    context.redirect('#/user');
-                });
+    // const postDelete = function (context) {
+    //     try {
+    //         itemModel.del(context.params.itemId)
+    //             .then(() => {
+    //                 notificationsHandler.stopLoading();
+    //                 notificationsHandler.displayMessage(constants.successMessages.deleted)
+    //                 context.redirect('#/user');
+    //             });
 
-        } catch (err) {
+    //     } catch (err) {
 
-         notificationsHandler.displayError(err.message);
-        }
-    }
+    //      notificationsHandler.displayError(err.message);
+    //     }
+    // }
 
     const getEdit = async function (context) {
 
@@ -96,7 +98,7 @@ const itemController = (() => {
                 acc.push(curr.name);
                 return acc;
             }, []).join(', ')
-            
+
             context.item = item;
             notificationsHandler.stopLoading();
 
@@ -124,20 +126,15 @@ const itemController = (() => {
             notificationsHandler.displayError(err.message);
         }
     }
-    
-    // todo search part
-    // const postSearch = function(context) {
-    //     console.log(context.params)
-    // }
+
+ 
 
     return {
         getItemDetails,
         manipulateItem,
         getDelete,
-        postDelete,
+       // postDelete,
         getEdit,
         postEdit,
-        
-       // postSearch
     }
 })();

@@ -15,9 +15,12 @@
                 <p class="description">{{item.description}}</p>
             </div>
             <div class="actions">
+                {{#if isCreator}}
                 <a class="btn btn-danger" href="#/details/{{id}}/delete">Archive</a>
                 <a class="btn btn-info" href="#/details/{{id}}/edit">Edit</a>
+                {{else}}
                 <a class="btn btn-success" href="#/details/{{id}}/manipulateItem"> {{item.subscribers}} likes</a>
+                {{/if}}
             </div>
         </div>
 

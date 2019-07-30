@@ -29,7 +29,7 @@ const app = Sammy('#root', function () {
     this.post('#/details/:itemId/edit', itemController.postEdit);
     
     this.get('#/details/:itemId/delete', itemController.getDelete);
-    this.post('#/details/:itemId/delete', itemController.postDelete);
+   // this.post('#/details/:itemId/delete', itemController.postDelete);
    
     //depends on the current task
     this.get('#/details/:itemId/manipulateItem', itemController.manipulateItem);

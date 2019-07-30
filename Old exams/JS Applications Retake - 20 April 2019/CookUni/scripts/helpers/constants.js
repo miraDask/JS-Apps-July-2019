@@ -64,7 +64,7 @@ const constants = (() => {
         created: 'Recipe shared successfully!',
         edited: 'Recipe edited successfully.',
         manipulation: 'You {manipulation description} successfully.',
-        deleted: 'Event closed successfully.'
+        deleted: 'Recipe deleted successfully.'
     }
 
     return {
