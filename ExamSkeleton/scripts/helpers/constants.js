@@ -11,10 +11,13 @@ const constants = (() => {
         login: './views/user/login.hbs',
         notifications: './views/common/notifications.hbs',
         userHome: './views/home/userHome.hbs',
-        user: './views/user/user.hbs',
+        user: './views/user/userPage.hbs',
         itemCreate: './views/items/itemCreate.hbs',
         itemEdit: './views/items/itemEdit.hbs',
-        details: './views/items/details.hbs'
+        details: './views/items/details.hbs',
+        allItems : './views/items/allItems.hbs',
+        itemDelete : './views/items/itemDelete.hbs',
+
     }
 
     const url = {
@@ -35,27 +38,30 @@ const constants = (() => {
             return document.getElementById('errorBox')
         },
         getSuccessBox: () => {
-            return document.getElementById('successBox')
+            return document.getElementById('infoBox')
         },
         getLoadingBox: () => {
             return document.getElementById('loadingBox')
         },
     }
 
+    //depends on the current task
     const errorMessages = {
-        username: 'The username should be at least 3 characters long!',
-        password: 'The password should be at least 6 characters long!',
-        rePassword: 'The repeat password should be equal to the password!',
-        
+        register : `
+            The username should be at least 3 characters long,
+            The password should be at least 6 characters long,
+            The repeat password should be equal to the password.
+        `
     }
 
+    //depends on the current task
     const successMessages = {
         register: 'User registration successful.',
         login: 'Login successful.',
         logout: 'Logout successful.',
         created: 'Event created successfully.',
         edited: 'Event edited successfully.',
-        join: 'You join the event successfully.',
+        manipulation: 'You {manipulation description} successfully.',
         deleted: 'Event closed successfully.'
     }
 

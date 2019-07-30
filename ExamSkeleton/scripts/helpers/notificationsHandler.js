@@ -1,37 +1,32 @@
 const notificationsHandler = (() => {
+    const loadingBox = constants.elements.getLoadingBox();
 
-    const fadeOut = (element) => {
-        var s = element.style;
-        s.opacity = 1;
-        (function fade() {
-            (s.opacity -= .1) < 0 ? s.display = "none" : setTimeout(fade, 1000)
-        })();
+    function displayMessage(message) {
+        const successBox = $('#infoBox');
+        $('#infoBox>span').text(message);
+        successBox.css( "display", "block" );
+        setTimeout(() => successBox.fadeOut(), 3000);
     }
 
-    const displayError = (message) => {
-        const errorBox = constants.elements.getErrorBox();
-        errorBox.style.display = 'block';
-        errorBox.textContent = message;
-
-        fadeOut(errorBox);
+    function displayError(message) {
+        let errorBox = $('#errorBox');
+        $('#errorBox>span').text(message);
+        errorBox.css( "display", "block" );;
+        setTimeout(() => errorBox.fadeOut(), 3000);
     }
 
-    const displayMessage = (message) => {
-        const successBox = constants.elements.getSuccessBox();
-        successBox.style.display = 'block';
-        successBox.textContent = message;
-
-        fadeOut(successBox);
+    const displayLoading = () => {
+        loadingBox.style.display = 'block';
     }
 
-    // const displayLoading = () => {
-    //     const loadingBox = constants.elements.getLoadingBox();
-    //     loadingBox.style.display = 'block';
-    // }
+    const stopLoading = () => {
+        loadingBox.style.display = '';
+    }
 
     return {
         displayError,
-       // displayLoading,
-        displayMessage
+        displayLoading,
+        displayMessage,
+        stopLoading
     }
 })()

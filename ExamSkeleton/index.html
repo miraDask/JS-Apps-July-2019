@@ -5,17 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" type="text/css" href="styles/style.css">
     <link rel="stylesheet" type="text/css" href="node_modules/bootstrap/dist/css/bootstrap.min.css">
-    <title>UniEnt</title>
+
+    <link rel="stylesheet" type="text/css" href="styles/notifications.css">
+    <link rel="stylesheet" type="text/css" href="styles/style.css">
+    <title>Skeleton</title>
 </head>
 
 <body>
-
-    <div id="root"></div>
+    <div id="notifications">
+        <div id="loadingBox" class="notification">
+            <span>Loading …</span>
+        </div>
+        <div id="infoBox" class="notification">
+            <span>Info</span>
+        </div>
+        <div id="errorBox" class="notification">
+            <span>Error</span>
+        </div>
+    </div>
+    <div id="root"> </div>
 
     <!-- Libraries -->
-    <!-- <script src="https://da189i1jfloii.cloudfront.net/js/kinvey-html5-sdk-4.2.3.min.js"></script> -->
     <script src="node_modules/jquery/dist/jquery.min.js"></script>
     <script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="node_modules/handlebars/dist/handlebars.min.js"></script>
@@ -44,4 +55,5 @@
     <!-- App -->
     <script src="scripts/app.js"></script>
 </body>
+
 </html>

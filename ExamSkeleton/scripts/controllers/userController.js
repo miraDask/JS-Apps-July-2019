@@ -15,7 +15,7 @@ const userController = (() => {
                 this.partial(constants.partials.register);
             })
         } catch (err) {
-          //  notificationsHandler.displayError(err.message);
+            notificationsHandler.displayError(err.message);
         }
     };
 
@@ -36,36 +36,40 @@ const userController = (() => {
 
     const postRegister = function (context) {
         try {
-            const correctData = validator.register(context.params.username, context.params.password, context.params.rePassword)
+           
+           const correctData = validator.register(context.params.username, context.params.password, context.params.repeatPassword)
+            console.log(context);
             
             if(!correctData) {
-                throw new Error(error)
+                throw new Error(constants.errorMessages.register)
             }
 
             userModel.register(context.params)
                 .then(validator.response)
                 .then((data) => {
-                  //  notificationsHandler.displayMessage(constants.successMessages.register)
+                    notificationsHandler.displayMessage(constants.successMessages.register)
                     storage.saveUser(data);
                     context.redirect('#/home');
                 })
 
         } catch (err) {
-           // notificationsHandler.displayError(err.message);
+           notificationsHandler.displayError(err.message);
         }
     };
 
     const postLogin = function (context) {
         try {
+            
             userModel.login(context.params)
                 .then(validator.response)
                 .then((data) => {
-                 //   notificationsHandler.displayMessage(constants.successMessages.login)
+                    notificationsHandler.displayMessage(constants.successMessages.login);
                     storage.saveUser(data);
                     context.redirect('#/home');
                 })
         } catch (err) {
-          //  notificationsHandler.displayError(err.message);
+            userController.getLogin(context)
+           //notificationsHandler.displayError(err.message);
         }
     };
 
@@ -74,12 +78,13 @@ const userController = (() => {
             userModel.logout()
                 .then(validator.response)
                 .then(() => {
-                  //  notificationsHandler.displayMessage(constants.successMessages.logout)
+                    notificationsHandler.stopLoading();
+                    notificationsHandler.displayMessage(constants.successMessages.logout);
                     storage.deleteUser();
                     homeController.getHome(context);
                 });
         } catch (err) {
-           // notificationsHandler.displayError(err.message);
+            notificationsHandler.displayError(err.message);
         }
     };
 
@@ -95,6 +100,8 @@ const userController = (() => {
             context.username = storage.getData('username');
             context.loggedIn = true;
 
+            notificationsHandler.stopLoading();
+
             context.loadPartials({
                 notifications,
                 header,
@@ -103,7 +110,7 @@ const userController = (() => {
                 this.partial(constants.partials.user);
             })
         } catch (err) {
-           // notificationsHandler.displayError(err.message);
+           notificationsHandler.displayError(err.message);
         }
     }
 
@@ -121,20 +128,21 @@ const userController = (() => {
                 this.partial(constants.partials.itemCreate);
             })
         } catch (err) {
-          //  notificationsHandler.displayError(err.message);
+           notificationsHandler.displayError(err.message);
         }
     }
 
     const postCreate = function (context) {
         try {
+            
             itemModel.create(context)
                 .then(validator.response)
                 .then(() => {
-                 //   notificationsHandler.displayMessage(constants.successMessages.created)
-                    homeController.getHome(context);
+                  notificationsHandler.displayMessage(constants.successMessages.created)
+                    context.redirect('#/user');
                 })
         } catch (err) {
-          //  notificationsHandler.displayError(err.message);
+          notificationsHandler.displayError(err.message);
         }
     }
 

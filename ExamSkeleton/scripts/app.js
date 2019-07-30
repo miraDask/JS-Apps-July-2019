@@ -11,28 +11,29 @@ const app = Sammy('#root', function () {
 
     this.get('#/login', userController.getLogin);
     this.post('#/login', userController.postLogin);
-   
+
     this.get('#/logout', userController.logout);
-   
+
     this.get('#/user', userController.getUser);
-    
-    
+
+
     // Item
+    this.get('#/allItems', itemController.getItemsAll);
+
     this.get('#/create', userController.getCreate);
     this.post('#/create', userController.postCreate);
-    
+
     this.get('#/details/:itemId', itemController.getItemDetails)
 
     this.get('#/details/:itemId/edit', itemController.getEdit);
     this.post('#/details/:itemId/edit', itemController.postEdit);
-
-
-    this.get('#/details/:itemId/join', itemController.getJoin);
-    this.get('#/details/:itemId/close', itemController.getDelete);
-
-
-    //? handle notifications
-    // refactor subscribe
+    
+    this.get('#/details/:itemId/delete', itemController.getDelete);
+    this.post('#/details/:itemId/delete', itemController.postDelete);
+   
+    //depends on the current task
+    this.get('#/details/:itemId/manipulateItem', itemController.manipulateItem);
+    //------------------------------------------------------------------
 });
 
 (() => {

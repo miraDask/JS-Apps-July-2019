@@ -1,6 +1,8 @@
 const userModel = (() => {
 
     const register = function (params) {
+        console.log(params);
+        
         const data = {
             //check what data is needed for register 
             //this is username-password example
@@ -22,7 +24,7 @@ const userModel = (() => {
     };
 
     const login = function (params) {
-
+        notificationsHandler.displayLoading();
         const url = constants.url.login;
         const authString = constants.authorization.login;
         const headers = {

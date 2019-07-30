@@ -4,17 +4,25 @@ const itemController = (() => {
         header,
         footer,
         details,
-        itemEdit
+        itemEdit,
+        allItems,
+        itemDelete
     } = constants.partials;
 
+    const sortItems = (items) => {
+        return items.sort((a, b) =>  b.tickets - a.tickets);
+    } 
+
     const getItemDetails = async function (context) {
+
         try {
             const itemId = context.params.itemId;
             context.item = await itemModel.getItem(itemId);
             const loggedIn = true;
             context.loggedIn = loggedIn;
             context.username = storage.getData('username');
-            context.isOrganizer = context.username === context.item.organizer
+
+            notificationsHandler.stopLoading();
 
             context.loadPartials({
                 notifications,
@@ -24,29 +32,55 @@ const itemController = (() => {
                 this.partial(details);
             })
         } catch (err) {
-           // notificationsHandler.displayError(err.message);
+             notificationsHandler.displayError(err.message);
 
         }
     }
 
-    const getJoin = async function (context) {
+    const manipulateItem = async function (context) {
         try {
-            await itemModel.join(context.params.itemId);
-           // notificationsHandler.displayMessage(constants.successMessages.join);
-            context.redirect(`#/details/${context.params.itemId}`);
+            await itemModel.manipulate(context.params.itemId);
+            notificationsHandler.displayMessage(constants.successMessages.manipulation);
+            context.redirect('#/allItems');
         } catch (err) {
-          //  notificationsHandler.displayError(err.message);
+            notificationsHandler.displayError(err.message);
         }
     }
 
     const getDelete = async function (context) {
         try {
-            await itemModel.del(context.params.itemId);
-           // notificationsHandler.displayMessage(constants.successMessages.deleted)
-            homeController.getHome(context);
+            const itemId = context.params.itemId;
+            context.item = await itemModel.getItem(itemId);
+            const loggedIn = true;
+            context.loggedIn = loggedIn;
+            context.username = storage.getData('username');
+           
+            notificationsHandler.stopLoading();
+ 
+            context.loadPartials({
+                notifications,
+                header,
+                footer
+            }).then(function () {
+                this.partial(itemDelete);
+            })
+        } catch (err) {
+            notificationsHandler.displayError(err.message);
+        }
+    }
+
+    const postDelete = function (context) {
+        try {
+            itemModel.del(context.params.itemId)
+                .then(() => {
+                    notificationsHandler.stopLoading();
+                    notificationsHandler.displayMessage(constants.successMessages.deleted)
+                    context.redirect('#/user');
+                });
 
         } catch (err) {
-           // notificationsHandler.displayError(err.message);
+
+         notificationsHandler.displayError(err.message);
         }
     }
 
@@ -59,6 +93,8 @@ const itemController = (() => {
             const item = await itemModel.getItem(itemId);
             context.item = item;
 
+            notificationsHandler.stopLoading();
+
             context.loadPartials({
                 notifications,
                 header,
@@ -67,7 +103,7 @@ const itemController = (() => {
                 this.partial(itemEdit);
             })
         } catch (err) {
-           // notificationsHandler.displayError(err.message);
+            notificationsHandler.displayError(err.message);
         }
     }
 
@@ -75,20 +111,52 @@ const itemController = (() => {
         try {
             itemModel.edit(context)
                 .then(async () => {
+                    notificationsHandler.stopLoading();
 
-                   // notificationsHandler.displayMessage(constants.successMessages.edited);
-                    context.redirect(`#/details/${context.params.itemId}`);
+                    notificationsHandler.displayMessage(constants.successMessages.edited);
+                    context.redirect(`#/user`);
                 })
         } catch (err) {
-          //  notificationsHandler.displayError(err.message);
+            notificationsHandler.displayError(err.message);
         }
     }
 
+    const getItemsAll = async function (context) {
+        try {
+            const items = await itemModel.getAllItems();
+            console.log(items);
+            sortItems(items);
+
+            context.items = items;
+            context.loggedIn = storage.getData('username') !== null;
+            context.username = storage.getData('username');
+            notificationsHandler.stopLoading();
+
+            context.loadPartials({
+                notifications,
+                header,
+                footer
+            }).then(function () {
+                this.partial(allItems);
+            })
+        } catch (err) {
+            notificationsHandler.displayError(err.message);
+        }
+    }
+    
+    // todo search part
+    // const postSearch = function(context) {
+    //     console.log(context.params)
+    // }
+
     return {
         getItemDetails,
-        getJoin,
+        manipulateItem,
         getDelete,
+        postDelete,
         getEdit,
-        postEdit
+        postEdit,
+        getItemsAll,
+       // postSearch
     }
 })();

@@ -21,7 +21,7 @@ const requester = (() => {
     };
 
     const makeRequest = function (url, headers) {
-
+      
         headers.headers["Content-Type"] = "application/json";
 
         if (storage.getData('username') !== null) {
