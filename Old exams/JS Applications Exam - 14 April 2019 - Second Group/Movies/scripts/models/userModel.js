@@ -24,7 +24,7 @@ const userModel = (() => {
     };
 
     const login = function (params) {
-
+        notificationsHandler.displayLoading();
         const url = constants.url.login;
         const authString = constants.authorization.login;
         const headers = {

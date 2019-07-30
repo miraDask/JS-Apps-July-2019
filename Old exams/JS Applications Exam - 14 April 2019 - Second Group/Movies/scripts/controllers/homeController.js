@@ -18,7 +18,8 @@ const homeController = (function () {
                 context.items = items;
             }
 
-
+            notificationsHandler.stopLoading();
+            
             context.loadPartials({
                 notifications,
                 header,

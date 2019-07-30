@@ -59,6 +59,7 @@ const userController = (() => {
 
     const postLogin = function (context) {
         try {
+            
             userModel.login(context.params)
                 .then(validator.response)
                 .then((data) => {
@@ -67,7 +68,7 @@ const userController = (() => {
                     context.redirect('#/home');
                 })
         } catch (err) {
-          //  notificationsHandler.displayError(err.message);
+           notificationsHandler.displayError(err.message);
         }
     };
 
