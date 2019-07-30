@@ -38,7 +38,7 @@ const constants = (() => {
             return document.getElementById('errorBox')
         },
         getSuccessBox: () => {
-            return document.getElementById('successBox')
+            return document.getElementById('infoBox')
         },
         getLoadingBox: () => {
             return document.getElementById('loadingBox')

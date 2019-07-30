@@ -62,7 +62,7 @@ const userController = (() => {
             userModel.login(context.params)
                 .then(validator.response)
                 .then((data) => {
-                 //   notificationsHandler.displayMessage(constants.successMessages.login)
+                    notificationsHandler.displayMessage(constants.successMessages.login)
                     storage.saveUser(data);
                     context.redirect('#/home');
                 })
@@ -76,7 +76,7 @@ const userController = (() => {
             userModel.logout()
                 .then(validator.response)
                 .then(() => {
-                  //  notificationsHandler.displayMessage(constants.successMessages.logout)
+                    notificationsHandler.displayMessage(constants.successMessages.logout)
                     storage.deleteUser();
                     homeController.getHome(context);
                 });
