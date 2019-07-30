@@ -51,8 +51,6 @@ const constants = (() => {
             The password should be at least 6 characters long,
             The repeat password should be equal to the password.
         `
-       
-        
     }
 
     const successMessages = {
