@@ -59,7 +59,7 @@ const constants = (() => {
         logout: 'Logout successful.',
         created: 'Event created successfully.',
         edited: 'Event edited successfully.',
-        join: 'You join the event successfully.',
+        join: 'You buy ticket successfully.',
         deleted: 'Event closed successfully.'
     }
 

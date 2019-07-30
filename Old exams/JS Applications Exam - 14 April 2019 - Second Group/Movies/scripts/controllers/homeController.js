@@ -1,5 +1,6 @@
 const homeController = (function () {
     const getHome = async function (context) {
+
         try {
             const {
                 notifications,
@@ -18,8 +19,8 @@ const homeController = (function () {
                 context.items = items;
             }
 
-            notificationsHandler.stopLoading();
-            
+        notificationsHandler.stopLoading();
+
             context.loadPartials({
                 notifications,
                 header,

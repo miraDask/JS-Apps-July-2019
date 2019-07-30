@@ -63,7 +63,7 @@ const userController = (() => {
             userModel.login(context.params)
                 .then(validator.response)
                 .then((data) => {
-                    notificationsHandler.displayMessage(constants.successMessages.login)
+                    notificationsHandler.displayMessage(constants.successMessages.login);
                     storage.saveUser(data);
                     context.redirect('#/home');
                 })
@@ -77,12 +77,12 @@ const userController = (() => {
             userModel.logout()
                 .then(validator.response)
                 .then(() => {
-                    notificationsHandler.displayMessage(constants.successMessages.logout)
+                    notificationsHandler.displayMessage(constants.successMessages.logout);
                     storage.deleteUser();
                     homeController.getHome(context);
                 });
         } catch (err) {
-           // notificationsHandler.displayError(err.message);
+            notificationsHandler.displayError(err.message);
         }
     };
 
@@ -98,6 +98,8 @@ const userController = (() => {
             context.username = storage.getData('username');
             context.loggedIn = true;
 
+            notificationsHandler.stopLoading();
+
             context.loadPartials({
                 notifications,
                 header,
@@ -106,7 +108,7 @@ const userController = (() => {
                 this.partial(constants.partials.user);
             })
         } catch (err) {
-           // notificationsHandler.displayError(err.message);
+           notificationsHandler.displayError(err.message);
         }
     }
 
@@ -124,21 +126,21 @@ const userController = (() => {
                 this.partial(constants.partials.itemCreate);
             })
         } catch (err) {
-          //  notificationsHandler.displayError(err.message);
+           notificationsHandler.displayError(err.message);
         }
     }
 
     const postCreate = function (context) {
         try {
-           
+            
             itemModel.create(context)
                 .then(validator.response)
                 .then(() => {
-                  //  notificationsHandler.displayMessage(constants.successMessages.created)
+                  notificationsHandler.displayMessage(constants.successMessages.created)
                     context.redirect('#/user');
                 })
         } catch (err) {
-          //  notificationsHandler.displayError(err.message);
+          notificationsHandler.displayError(err.message);
         }
     }
 

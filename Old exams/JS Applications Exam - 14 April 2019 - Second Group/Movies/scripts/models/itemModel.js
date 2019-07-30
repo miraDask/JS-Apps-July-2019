@@ -1,6 +1,7 @@
 const itemModel = (() => {
  //todo refactor
     const create = function (context) {
+        notificationsHandler.displayLoading();
         const url = constants.url.items;
 
         const organizer = storage.getData('username');
@@ -21,6 +22,8 @@ const itemModel = (() => {
     }
 
     const getItem = async function (id) {
+        notificationsHandler.displayLoading();
+
         const url = constants.url.items + `/${id}`;
         const headers = {
             headers: {}
@@ -32,6 +35,8 @@ const itemModel = (() => {
     }
 
     const getAllItems = async function () {
+        notificationsHandler.displayLoading();
+
         const url = constants.url.items;
         const headers = {
             headers: {}
@@ -57,7 +62,8 @@ const itemModel = (() => {
     }
 
     const del = async function (id) {
-
+        notificationsHandler.displayLoading();
+        
         const url = constants.url.items + `/${id}`;
         const headers = {
             headers: {},
@@ -69,6 +75,7 @@ const itemModel = (() => {
     }
 
     const edit = async function (context) {
+        notificationsHandler.displayLoading();
 
         const itemId = context.params.itemId;
         const body = {
