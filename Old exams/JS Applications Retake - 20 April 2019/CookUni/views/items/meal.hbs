@@ -1,0 +1,13 @@
+<div class="team-back">
+    <div class="back-side-info">
+        <h4>Ingredients</h4>
+        <ul>
+            {{#each ingredients}}
+            <li>{{name}}</li>
+            {{/each}}
+        </ul>
+        <a href="#/details/{{_id}}">View the recepie</a>
+    </div>
+
+    <img class="foodImage" src="{{foodImageURL}}" />
+</div>

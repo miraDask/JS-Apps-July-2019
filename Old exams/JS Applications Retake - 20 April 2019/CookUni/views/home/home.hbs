@@ -1,0 +1,131 @@
+{{> header}}
+{{!-- home page goes here --}}
+{{#if loggedIn}}
+{{#if items}}
+<div id="sharedRecipes"></div>
+
+{{#if meat}}
+{{#each meat}}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="our-team-main">
+
+                <div class="team-front">
+                    <img
+                        src="https://t3.ftcdn.net/jpg/01/18/84/52/240_F_118845283_n9uWnb81tg8cG7Rf9y3McWT1DT1ZKTDx.jpg" />
+                    <h3>{{meal}}</h3>
+                    <p>Lean meats and poultry, fish... CATEGORY</p>
+                </div>
+                {{>meal}}
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{{/each}}
+{{/if}}
+{{#if grainFood}}
+{{#each grainFood}}
+<div class="container">
+    <div class="row">
+
+        <!--Grain-Food-Template-->
+        <div class="col-lg-12">
+            <div class="our-team-main">
+
+                <div class="team-front">
+                    <img src="https://cdn.pixabay.com/photo/2014/12/11/02/55/corn-syrup-563796__340.jpg" />
+                    <h3>{{meal}}</h3>
+                    <p>Grain Food CATEGORY</p>
+                </div>
+                {{>meal}}
+
+            </div>
+        </div>
+        <!--Food-Template-->
+    </div>
+</div>
+
+{{/each}}
+{{/if}}
+{{#if fruits}}
+{{#each fruits}}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="our-team-main">
+
+                <div class="team-front">
+                    <img src="https://cdn.pixabay.com/photo/2017/06/02/18/24/fruit-2367029__340.jpg" />
+                    <h3>{{meal}}</h3>
+                    <p>Fruits CATEGORY</p>
+                </div>
+                {{>meal}}
+
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+{{/if}}
+{{#if vegetables}}
+{{#each vegetables}}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="our-team-main">
+
+                <div class="team-front">
+                    <img src="https://cdn.pixabay.com/photo/2017/10/09/19/29/eat-2834549__340.jpg" />
+                    <h3>{{meal}}</h3>
+                    <p>Vegetables and legumes/beans CATEGORY</p>
+                </div>
+                {{>meal}}
+
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+{{/if}}
+{{#if dairyProducts}}
+{{#each dairyProducts}}
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="our-team-main">
+
+                <div class="team-front">
+                    <img
+                        src="https://image.shutterstock.com/image-photo/assorted-dairy-products-milk-yogurt-260nw-530162824.jpg" />
+                    <h3>{{meal}}</h3>
+                    <p>Milk, chees, eggs and alternatives CATEGORY</p>
+                </div>
+                {{>meal}}
+
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+
+{{/if}}
+
+</div>
+{{else}}
+<h1 class="text-center">Our Recipes</h1>
+<div id='foodNotFound'>
+    <img src="https://t4.ftcdn.net/jpg/00/62/17/31/240_F_62173114_ozantkVtkPgzL0fxssAkTqKX1FHPr0UW.jpg" />
+    <h3>Food not found...</h3>
+</div>
+{{/if}}
+{{else}}
+<main role="main" class="inner cover mt-5">
+    <h1 class="cover-heading">Coooooking University</h1>
+    <p class="lead">They say that food passes through the stomach, we say that food passes through CookUni...
+    </p>
+</main>
+{{/if}}
+{{> footer }}
