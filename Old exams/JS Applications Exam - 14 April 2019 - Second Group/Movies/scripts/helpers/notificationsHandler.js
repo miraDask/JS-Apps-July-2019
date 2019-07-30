@@ -28,15 +28,15 @@ const notificationsHandler = (() => {
 
     function displayMessage(message) {
         const successBox = $('#infoBox');
-        successBox.first().text(message);
+        $('#infoBox>span').text(message);
         successBox.css( "display", "block" );
-        setTimeout(() => successBox.fadeOut(), 3000);
+        setTimeout(() => successBox.fadeOut(), 5000);
     }
 
     function displayError(message) {
         let errorBox = $('#errorBox');
-        errorBox.first().text(message);
-        errorBox.css( "display", "" );;
+        $('#errorBox>span').text(message);
+        errorBox.css( "display", "block" );;
         setTimeout(() => errorBox.fadeOut(), 3000);
     }
 

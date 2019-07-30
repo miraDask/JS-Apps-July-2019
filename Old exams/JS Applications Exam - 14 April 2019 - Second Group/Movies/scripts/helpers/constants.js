@@ -46,9 +46,12 @@ const constants = (() => {
     }
 
     const errorMessages = {
-        username: 'The username should be at least 3 characters long!',
-        password: 'The password should be at least 6 characters long!',
-        rePassword: 'The repeat password should be equal to the password!',
+        register : `
+            The username should be at least 3 characters long,
+            The password should be at least 6 characters long,
+            The repeat password should be equal to the password.
+        `
+       
         
     }
 

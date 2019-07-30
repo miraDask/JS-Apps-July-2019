@@ -36,24 +36,24 @@ const userController = (() => {
 
     const postRegister = function (context) {
         try {
-            debugger
+           
            const correctData = validator.register(context.params.username, context.params.password, context.params.repeatPassword)
             console.log(context);
             
             if(!correctData) {
-                throw new Error(error)
+                throw new Error(constants.errorMessages.register)
             }
 
             userModel.register(context.params)
                 .then(validator.response)
                 .then((data) => {
-                    //notificationsHandler.displayMessage(constants.successMessages.register)
+                    notificationsHandler.displayMessage(constants.successMessages.register)
                     storage.saveUser(data);
                     context.redirect('#/home');
                 })
 
         } catch (err) {
-           // notificationsHandler.displayError(err.message);
+           notificationsHandler.displayError(err.message);
         }
     };
 
