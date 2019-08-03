@@ -70,7 +70,6 @@ const itemModel = (() => {
     const manipulate = async function (id) {
         const url = constants.url.items + `/${id}`;
         const item = await getItem(id);
-        //property for manipulation depends on the task
         item.subscribers++;
         const headers = {
             headers: {},

@@ -56,14 +56,13 @@ const constants = (() => {
         `
     }
 
-    //depends on the current task
     const successMessages = {
         register: 'User registration successful.',
         login: 'Login successful.',
         logout: 'Logout successful.',
         created: 'Recipe shared successfully!',
         edited: 'Recipe edited successfully.',
-        manipulation: 'You {manipulation description} successfully.',
+        manipulation: 'You liked this recipe successfully.',
         deleted: 'Recipe deleted successfully.'
     }
 

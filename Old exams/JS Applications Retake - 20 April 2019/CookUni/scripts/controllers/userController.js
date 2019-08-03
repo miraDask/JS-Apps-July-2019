@@ -34,8 +34,9 @@ const userController = (() => {
 
     const postRegister = function (context) {
         try {
-           const correctData = validator.register(context.params)
             
+           const correctData = validator.register(context.params)
+           
             if(!correctData) {
                 throw new Error(constants.errorMessages.register)
             }

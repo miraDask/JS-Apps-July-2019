@@ -4,12 +4,7 @@ const itemController = (() => {
         footer,
         details,
         itemEdit,
-        itemDelete
     } = constants.partials;
-
-    // const sortItems = (items) => {
-    //     return items.sort((a, b) =>  b.tickets - a.tickets);
-    // } 
 
     const getItemDetails = async function (context) {
 
@@ -39,9 +34,11 @@ const itemController = (() => {
 
     const manipulateItem = async function (context) {
         try {
-            await itemModel.manipulate(context.params.itemId);
+            const id = context.params.itemId
+            await itemModel.manipulate(id);
+            const item = await itemModel.getItem(id);
             notificationsHandler.displayMessage(constants.successMessages.manipulation);
-            context.redirect('#/allItems');
+            context.redirect(`#/details/${id}`);
         } catch (err) {
             notificationsHandler.displayError(err.message);
         }
@@ -69,21 +66,6 @@ const itemController = (() => {
             notificationsHandler.displayError(err.message);
         }
     }
-
-    // const postDelete = function (context) {
-    //     try {
-    //         itemModel.del(context.params.itemId)
-    //             .then(() => {
-    //                 notificationsHandler.stopLoading();
-    //                 notificationsHandler.displayMessage(constants.successMessages.deleted)
-    //                 context.redirect('#/user');
-    //             });
-
-    //     } catch (err) {
-
-    //      notificationsHandler.displayError(err.message);
-    //     }
-    // }
 
     const getEdit = async function (context) {
 
@@ -133,7 +115,6 @@ const itemController = (() => {
         getItemDetails,
         manipulateItem,
         getDelete,
-       // postDelete,
         getEdit,
         postEdit,
     }

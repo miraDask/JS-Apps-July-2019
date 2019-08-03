@@ -32,8 +32,9 @@ const homeController = (function () {
             }).then(function () {
                 
                 this.partial(homePage);
-                notificationsHandler.stopLoading();
             })
+
+            notificationsHandler.stopLoading();
 
         } catch (err) {
             //notificationsHandler.displayError(err.message);
