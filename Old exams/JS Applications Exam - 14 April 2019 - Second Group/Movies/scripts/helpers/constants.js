@@ -25,7 +25,7 @@ const constants = (() => {
         login: baseUrl + `/user/${appKey}/login`,
         logout: baseUrl + `/user/${appKey}/_logout`,
         // this is for PUT , DELETE requests  -  you should add itemId at the end
-        items: baseUrl + `/appdata/${appKey}/items`
+        items: baseUrl + `/appdata/${appKey}/movies`
     }
 
     const authorization = {
@@ -57,10 +57,10 @@ const constants = (() => {
         register: 'User registration successful.',
         login: 'Login successful.',
         logout: 'Logout successful.',
-        created: 'Event created successfully.',
-        edited: 'Event edited successfully.',
-        join: 'You buy ticket successfully.',
-        deleted: 'Event closed successfully.'
+        created: 'Movie added successfully.',
+        edited: 'Movie edited successfully.',
+        join: 'You bought ticket successfully.',
+        deleted: 'Movie removed successfully.'
     }
 
     return {
