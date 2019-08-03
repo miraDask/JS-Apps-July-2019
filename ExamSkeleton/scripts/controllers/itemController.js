@@ -1,6 +1,5 @@
 const itemController = (() => {
     const {
-        notifications,
         header,
         footer,
         details,
@@ -25,7 +24,6 @@ const itemController = (() => {
             notificationsHandler.stopLoading();
 
             context.loadPartials({
-                notifications,
                 header,
                 footer
             }).then(function () {
@@ -58,7 +56,6 @@ const itemController = (() => {
             notificationsHandler.stopLoading();
  
             context.loadPartials({
-                notifications,
                 header,
                 footer
             }).then(function () {
@@ -96,7 +93,6 @@ const itemController = (() => {
             notificationsHandler.stopLoading();
 
             context.loadPartials({
-                notifications,
                 header,
                 footer
             }).then(function () {
@@ -114,7 +110,7 @@ const itemController = (() => {
                     notificationsHandler.stopLoading();
 
                     notificationsHandler.displayMessage(constants.successMessages.edited);
-                    context.redirect(`#/user`);
+                    context.redirect(`#/userPage`);
                 })
         } catch (err) {
             notificationsHandler.displayError(err.message);
@@ -133,7 +129,6 @@ const itemController = (() => {
             notificationsHandler.stopLoading();
 
             context.loadPartials({
-                notifications,
                 header,
                 footer
             }).then(function () {

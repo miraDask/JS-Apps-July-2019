@@ -14,7 +14,7 @@ const app = Sammy('#root', function () {
 
     this.get('#/logout', userController.logout);
 
-    this.get('#/user', userController.getUser);
+    this.get('#/userPage', userController.getUser);
 
 
     // Item

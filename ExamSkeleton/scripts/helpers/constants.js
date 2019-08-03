@@ -59,10 +59,10 @@ const constants = (() => {
         register: 'User registration successful.',
         login: 'Login successful.',
         logout: 'Logout successful.',
-        created: 'Event created successfully.',
-        edited: 'Event edited successfully.',
+        created: 'Item created successfully.',
+        edited: 'Item edited successfully.',
         manipulation: 'You {manipulation description} successfully.',
-        deleted: 'Event closed successfully.'
+        deleted: 'Item deleted successfully.'
     }
 
     return {

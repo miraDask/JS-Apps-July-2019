@@ -3,7 +3,6 @@ const homeController = (function () {
 
         try {
             const {
-                notifications,
                 header,
                 footer,
                 homePage
@@ -22,7 +21,6 @@ const homeController = (function () {
         notificationsHandler.stopLoading();
 
             context.loadPartials({
-                notifications,
                 header,
                 footer
             }).then(function () {

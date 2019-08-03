@@ -1,6 +1,5 @@
 const userController = (() => {
     const {
-        notifications,
         header,
         footer,
     } = constants.partials;
@@ -8,7 +7,6 @@ const userController = (() => {
     const getRegister = function (context) {
         try {
             context.loadPartials({
-                notifications,
                 header,
                 footer
             }).then(function () {
@@ -22,7 +20,6 @@ const userController = (() => {
     const getLogin = function (context) {
         try {
             context.loadPartials({
-                notifications,
                 header,
                 footer
             }).then(function () {
@@ -121,7 +118,6 @@ const userController = (() => {
             context.username = storage.getData('username');
           
             context.loadPartials({
-                notifications,
                 header,
                 footer
             }).then(function () {
@@ -139,7 +135,7 @@ const userController = (() => {
                 .then(validator.response)
                 .then(() => {
                   notificationsHandler.displayMessage(constants.successMessages.created)
-                    context.redirect('#/user');
+                    context.redirect('#/userPage');
                 })
         } catch (err) {
           notificationsHandler.displayError(err.message);
