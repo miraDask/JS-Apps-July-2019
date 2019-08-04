@@ -1,0 +1,17 @@
+{{!-- header goes here --}}
+<nav class="navbar navbar-light bg-light static-top">
+    <a class="navbar-brand" href="#/home">SoftBay</a>
+        {{#if loggedIn}}
+    <div class="container">
+        <a class="navbar-item" href="#/dashboard">Dashboard</a>
+        <a class="navbar-item" href="#/create">Create Offer</a>
+        {{!-- <!--BONUS (NOT REQUIRED)--><a class="navbar-item" href="">Profile</a>
+        <!--BONUS (NOT REQUIRED)--> --}}
+        <a class="navbar-item" href="#/logout">Logout</a>
+
+        {{else}}
+    <a class="btn btn-warning" href="#/login">Login</a>
+
+    </div>
+        {{/if}}
+</nav>
