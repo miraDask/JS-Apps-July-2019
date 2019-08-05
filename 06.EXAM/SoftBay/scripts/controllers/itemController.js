@@ -8,10 +8,6 @@ const itemController = (() => {
         itemDelete
     } = constants.partials;
 
-    const sortItems = (items) => {
-        return items.sort((a, b) => b.tickets - a.tickets);
-    }
-
     const getItemDetails = async function (context) {
 
         try {
@@ -133,8 +129,6 @@ const itemController = (() => {
                 i.isCreator = i._acl.creator === storage.getData('userId');
             })
 
-            // sortItems(items);
-
             context.items = items;
             context.loggedIn = storage.getData('username') !== null;
             context.username = storage.getData('username');
@@ -151,7 +145,6 @@ const itemController = (() => {
         }
     }
 
-  
     return {
         getItemDetails,
         manipulateItem,
@@ -160,6 +153,5 @@ const itemController = (() => {
         getEdit,
         postEdit,
         getItemsAll,
-        // postSearch
     }
 })();
