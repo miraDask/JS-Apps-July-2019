@@ -5,12 +5,12 @@ const itemModel = (() => {
         const url = constants.url.items;
 
         const organizer = storage.getData('username');
-        const subscribers = 0;
+        const buyers = [];
 
         const body = {
             ...context.params,
             organizer,
-            subscribers
+            buyers
         }
 
         const headers = {
@@ -52,7 +52,7 @@ const itemModel = (() => {
         const url = constants.url.items + `/${id}`;
         const item = await getItem(id);
         //property for manipulation depends on the task
-        item.tickets--;
+        item.buyers.push(storage.getData('userId'));
         const headers = {
             headers: {},
             body: JSON.stringify(item)

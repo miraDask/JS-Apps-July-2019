@@ -39,7 +39,7 @@ const itemController = (() => {
         try {
             await itemModel.manipulate(context.params.itemId);
             notificationsHandler.displayMessage(constants.successMessages.manipulation);
-            context.redirect('#/allItems');
+            context.redirect('#/dashboard');
         } catch (err) {
             notificationsHandler.displayError(err.message);
         }

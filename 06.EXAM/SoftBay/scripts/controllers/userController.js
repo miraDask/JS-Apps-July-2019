@@ -87,20 +87,31 @@ const userController = (() => {
 
     const getUser = async function (context) {
         try {
-            let items = await itemModel.getAllItems();
+            let currentUserOffers = [];
+            let boughtItems = 0;
             const userId = storage.getData('userId');
+            let items = await itemModel.getAllItems();
+            items.forEach(i => {
+                if(i._acl.creator === userId) {
 
-            items = items.filter(i => i._acl.creator === userId);
-            context.items = items;
-            context.count = items.length;
-            context.hasCreatedEvents = items.length > 0;
+                    currentUserOffers.push(i);
+                }
+
+                i.buyers.forEach(b => {
+                    if(b === userId) {
+                        boughtItems++;
+                    }
+                })
+            });
+
+            context.items = currentUserOffers;
+            context.boughtItems = boughtItems;
             context.username = storage.getData('username');
             context.loggedIn = true;
 
             notificationsHandler.stopLoading();
 
             context.loadPartials({
-                notifications,
                 header,
                 footer
             }).then(function () {
